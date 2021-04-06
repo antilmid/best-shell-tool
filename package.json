@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "rollup": "^2.44.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.3"
+  },
+  "name": "best-shell-tool",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antilmid/best-shell-tool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antilmid/best-shell-tool/issues"
+  },
+  "homepage": "https://github.com/antilmid/best-shell-tool#readme"
+}
