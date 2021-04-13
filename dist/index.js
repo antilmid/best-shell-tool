@@ -1,1 +1,1 @@
-"use strict";
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var ColorEnum,PREFIX=Buffer.from([27,91]);function getFontStyle(e,o,r){void 0===r&&(r="");e=30+(0<=ColorEnum[e]?ColorEnum[e]:7),o=40+(ColorEnum[o]||0),r=Buffer.from(o+";"+e+"m"+r);return Buffer.concat([PREFIX,r]).toString()}!function(e){e[e.black=0]="black",e[e.red=1]="red",e[e.green=2]="green",e[e.yellow=3]="yellow",e[e.blue=4]="blue",e[e.purple=5]="purple",e[e.celeste=6]="celeste",e[e.white=7]="white"}(ColorEnum=ColorEnum||{}),exports.PREFIX=PREFIX,exports.getFontStyle=getFontStyle;
