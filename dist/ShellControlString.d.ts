@@ -1,6 +1,7 @@
 /// <reference types="node" />
 export declare const PREFIX: Buffer;
 declare type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
+declare type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
 /**
  * @description: 获取字体样式
  * @param {Color} font_color 字体颜色
@@ -44,4 +45,12 @@ export declare function getRDisplayString(msg?: string): string;
  * @return {string} 格式化后的消息
  */
 export declare function getCancelHideString(msg?: string): string;
+/**
+ * @description: 控制光标移动
+ * @param {Direct} direct 移动方向
+ * @param {number} lines 移动行数
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function controlArrowMove(direct?: Direct, lines?: number, msg?: string): string;
 export {};

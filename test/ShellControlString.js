@@ -69,4 +69,24 @@ describe('ShellControlString', function() {
       assert.equal(bst.getCancelHideString('特定消息'), "\33[8m特定消息");
     });
   });
+  // 测试光标移动字符
+  describe('#controlArrowMove()', function() {
+    it('期望得到正确的移动字符', function() {
+      const n = parseInt(Math.random()*10, 10);
+      assert.equal(bst.controlArrowMove('up', n), "\33[" + n + "A");
+      assert.equal(bst.controlArrowMove('down', n), "\33[" + n + "B");
+      assert.equal(bst.controlArrowMove('right', n), "\33[" + n + "C");
+      assert.equal(bst.controlArrowMove('left', n), "\33[" + n + "D");
+    });
+    it('期望得到带特定消息的消隐字符', function() {
+      const n = parseInt(Math.random()*10, 10);
+      assert.equal(bst.controlArrowMove('up', n, '特定消息'), "\33[" + n + "A特定消息");
+      assert.equal(bst.controlArrowMove('down', n, '特定消息'), "\33[" + n + "B特定消息");
+      assert.equal(bst.controlArrowMove('right', n, '特定消息'), "\33[" + n + "C特定消息");
+      assert.equal(bst.controlArrowMove('left', n, '特定消息'), "\33[" + n + "D特定消息");
+    });
+    it('期望的默认值', function() {
+      assert.equal(bst.controlArrowMove(), "\33[0B");
+    });
+  });
 });
