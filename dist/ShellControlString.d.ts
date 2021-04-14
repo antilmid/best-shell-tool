@@ -26,7 +26,22 @@ export declare function getHighlightString(msg?: string): string;
  * @return {string} 格式化后的消息
  */
 export declare function getUnderLineString(msg?: string): string;
+/**
+ * @description: 获取下闪烁消息
+ * @param {string} msg 消息
+ * @return {string} 格式化后的消息
+ */
 export declare function getBlinkString(msg?: string): string;
+/**
+ * @description: 获取反显消息
+ * @param {string} msg 消息
+ * @return {string} 格式化后的消息
+ */
 export declare function getRDisplayString(msg?: string): string;
+/**
+ * @description: 获取消隐消息
+ * @param {string} msg 消息
+ * @return {string} 格式化后的消息
+ */
 export declare function getCancelHideString(msg?: string): string;
 export {};
