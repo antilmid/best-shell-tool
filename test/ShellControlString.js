@@ -3,6 +3,7 @@ const bst = require('../dist/index')
 
 describe('ShellControlString', function() {
   describe('#getFontStyle()', function() {
+    // this.slow('1ms');
     it('期望的是蓝底红色字体', function() {
       assert.equal(bst.getFontStyle('red', 'blue', '红字蓝底'), "\033[44;31m红字蓝底");
     });

@@ -14,8 +14,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run build; mocha",
-    "test-node": "node ./node/index.js",
-    "build": "rm -rf ./dist; npx rollup -c"
+    "build": "rm -rf ./dist; npx rollup -c",
+    "start": "node ./rollupEntry.js"
   },
   "repository": {
     "type": "git",
