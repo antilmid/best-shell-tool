@@ -53,4 +53,48 @@ export declare function getCancelHideString(msg?: string): string;
  * @return {string} 格式化后的消息
  */
 export declare function controlArrowMove(direct?: Direct, lines?: number, msg?: string): string;
+/**
+ * @description: 设置鼠标位置
+ * @param {number} x 横坐标移动距离
+ * @param {number} y 纵坐标移动距离
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function setArrowPosition(x?: number, y?: number, msg?: string): string;
+/**
+ * @description: 清屏
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function clearScreen(msg?: string): string;
+/**
+ * @description: 保存光标位置
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function saveArrowPosition(msg?: string): string;
+/**
+ * @description: 恢复光标位置
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function readArrowPosition(msg?: string): string;
+/**
+ * @description: 隐藏光标
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function hideArrow(msg?: string): string;
+/**
+ * @description: 显示光标
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function showArrow(msg?: string): string;
+/**
+ * @description: 清除从光标到行尾的内容
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export declare function clearPositionAfter(msg?: string): string;
 export {};

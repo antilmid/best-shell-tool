@@ -89,4 +89,55 @@ describe('ShellControlString', function() {
       assert.equal(bst.controlArrowMove(), "\33[0B");
     });
   });
+  // 测试设置光标位置
+  describe('#setArrowPosition()', function() {
+    it('期望光标到特定位置', function() {
+      const x = parseInt(Math.random()*10, 10);
+      const y = parseInt(Math.random()*10, 10);
+      assert.equal(bst.setArrowPosition(x, y), "\33["+ y +";" + x + "H");
+      assert.equal(bst.setArrowPosition(x, y, 'D特定消息'), "\33["+ y +";" + x + "HD特定消息");
+    });
+  });
+  // 测试清屏
+  describe('#clearScreen()', function() {
+    it('期望屏幕被清除', function() {
+      assert.equal(bst.clearScreen(), "\33[2J");
+      assert.equal(bst.clearScreen('特定消息'), "\33[2J特定消息");
+    });
+  });
+  // 光标保存
+  describe('#saveArrowPosition()', function() {
+    it('期望光标位置被保存', function() {
+      assert.equal(bst.saveArrowPosition(), "\33[s");
+      assert.equal(bst.saveArrowPosition('特定消息'), "\33[s特定消息");
+    });
+  });
+  // 光标位置读取
+  describe('#readArrowPosition()', function() {
+    it('期望光标位置被读取', function() {
+      assert.equal(bst.readArrowPosition(), "\33[u");
+      assert.equal(bst.readArrowPosition('特定消息'), "\33[u特定消息");
+    });
+  });
+  // 隐藏光标
+  describe('#hideArrow()', function() {
+    it('期望光标被隐藏', function() {
+      assert.equal(bst.hideArrow(), "\33[?25l");
+      assert.equal(bst.hideArrow('特定消息'), "\33[?25l特定消息");
+    });
+  });
+  // 显示光标
+  describe('#showArrow()', function() {
+    it('期望光标被显示', function() {
+      assert.equal(bst.showArrow(), "\33[?25h");
+      assert.equal(bst.showArrow('特定消息'), "\33[?25h特定消息");
+    });
+  });
+  // 清除从光标到行尾的内容
+  describe('#clearPositionAfter()', function() {
+    it('期望清除从光标到行尾的内容', function() {
+      assert.equal(bst.clearPositionAfter(), "\33[K");
+      assert.equal(bst.clearPositionAfter('特定消息'), "\33[K特定消息");
+    });
+  });
 });

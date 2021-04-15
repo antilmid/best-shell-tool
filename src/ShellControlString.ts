@@ -112,3 +112,75 @@ export function controlArrowMove (direct:Direct = 'down', lines:number = 0, msg:
   const content = Buffer.from(`${lines}${MapDirect[direct]}${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
+
+/**
+ * @description: 设置鼠标位置
+ * @param {number} x 横坐标移动距离
+ * @param {number} y 纵坐标移动距离
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export function setArrowPosition (x:number = 0, y:number = 0, msg:string = '') {
+  const content = Buffer.from(`${y};${x}H${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 清屏
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+export function clearScreen (msg:string = '') {
+  const content = Buffer.from(`2J${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 保存光标位置
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+ export function saveArrowPosition (msg:string = '') {
+  const content = Buffer.from(`s${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 恢复光标位置
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+ export function readArrowPosition (msg:string = '') {
+  const content = Buffer.from(`u${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 隐藏光标
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+ export function hideArrow (msg:string = '') {
+  const content = Buffer.from(`?25l${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 显示光标
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+ export function showArrow (msg:string = '') {
+  const content = Buffer.from(`?25h${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
+
+/**
+ * @description: 清除从光标到行尾的内容
+ * @param {string} msg 附加消息
+ * @return {string} 格式化后的消息
+ */
+ export function clearPositionAfter (msg:string = '') {
+  const content = Buffer.from(`K${msg}`);
+  return Buffer.concat([PREFIX, content]).toString();
+}
