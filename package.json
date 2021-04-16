@@ -22,7 +22,8 @@
     "test": "npm run build; mocha",
     "build": "rm -rf ./dist; npx rollup -c",
     "start": "node ./rollupEntry.js",
-    "lint": "eslint src/** --fix --config .eslintrc.js"
+    "lint": "eslint src/** --fix --config .eslintrc.js",
+    "precommit": "echo haha"
   },
   "husky": {
     "hooks": {
