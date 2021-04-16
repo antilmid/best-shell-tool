@@ -162,7 +162,7 @@ interface StandOutOperate {
 export function getFontStyle(fontColor?: Color | '', background?: Color | '', msg:string = '') : string {
   const colorPos = 30 + ColorMap[fontColor];
   const backPos = 40 + ColorMap[background];
-  const content = Buffer.from(`${background ? backPos : ''};${fontColor ? colorPos : ''}m${msg}`);
+  const content = Buffer.from(`${background ? backPos : ''}${fontColor ? `;${colorPos}` : ''}m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
 

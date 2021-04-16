@@ -20,6 +20,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run build; mocha",
+    "test-node": "node ./test-node/index.js",
     "build": "npx rollup -c",
     "start": "node ./rollupEntry.js",
     "lint": "eslint src/** --fix --config .eslintrc.js",

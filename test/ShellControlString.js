@@ -12,7 +12,7 @@ describe('ShellControlString', function() {
       assert.equal(bst.getFontStyle('black', 'white', '白底黑字'), "\033[47;30m白底黑字");
     });
     it('默认值应该是黑底白字', function() {
-      assert.equal(bst.getFontStyle(), "\033[;m");
+      assert.equal(bst.getFontStyle(), "\033[m");
     });
   });
   // 测试清除所有属性
