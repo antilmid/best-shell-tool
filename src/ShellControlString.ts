@@ -246,7 +246,7 @@ export function controlArrowMove(direct:Direct = 'down', lines:number = 0, msg:s
  * @return {string} 格式化后的消息
  */
 export function setArrowPosition(x:number | '', y:number | '', msg:string = '') {
-  const content = Buffer.from(`${y !== 0 && !y ? '' : y};${x !== 0 && !x ? '' : x}H${msg}`);
+  const content = Buffer.from(`${y !== 0 && !y ? '' : y}${x !== 0 && !x ? '' : `;${x}`}H${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
 
