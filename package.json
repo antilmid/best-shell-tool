@@ -20,16 +20,10 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run build; mocha",
-    "build": "rm -rf ./dist; npx rollup -c",
+    "build": "npx rollup -c",
     "start": "node ./rollupEntry.js",
     "lint": "eslint src/** --fix --config .eslintrc.js",
-    "precommit": "echo haha",
     "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
   },
   "repository": {
     "type": "git",

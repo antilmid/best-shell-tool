@@ -1,6 +1,5 @@
 // 控制字符前缀buffer
 export const PREFIX = Buffer.from([0x1b, 0x5b]);
-const a = '';
 
 // 颜色管理
 type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
