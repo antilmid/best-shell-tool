@@ -1,1 +1,1 @@
-export * from './ShellControlString'
+export * from './ShellControlString';

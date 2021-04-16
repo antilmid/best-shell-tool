@@ -1,45 +1,54 @@
-
 // 控制字符前缀buffer
 export const PREFIX = Buffer.from([0x1b, 0x5b]);
 
 // 颜色管理
 type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
-enum ColorEnum {
-  black,
-  red,
-  green,
-  yellow,
-  blue,
-  purple,
-  celeste,
-  white
-}
+const ColorMap = {
+  black: 0,
+  red: 1,
+  green: 2,
+  yellow: 3,
+  blue: 4,
+  purple: 5,
+  celeste: 6,
+  white: 7,
+};
 
 // 方向管理
 type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
 const MapDirect = {
-  'up': 'A',
-  '上': 'A',
-  'down': 'B',
-  '下': 'B',
-  'right': 'C',
-  '右': 'C',
-  'left': 'D',
-  '左': 'D'
-}
+  up: 'A',
+  上: 'A',
+  down: 'B',
+  下: 'B',
+  right: 'C',
+  右: 'C',
+  left: 'D',
+  左: 'D',
+};
 
 interface StandOutOperate {
+  /**
+   * @description: 附加消息
+   * @param {string} msg 要附加的消息
+   * @return {StandOutOperate}
+   */
   msg?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 结束并获得格式化后的字符
+   * @return {string}
+   */
   end?: () => string,
 
   /**
    * @description: 设置字体样式
-   * @param {Color | ''} font_color 字体颜色
+   * @param {Color | ''} fontColor 字体颜色
    * @param {Color | ''} background 背景色
    * @return {StandOutOperate}
    */
-  setFont?: (font_color?: Color | '', background?: Color | '', msg?:string) => StandOutOperate,
-  
+  setFont?: (fontColor?: Color | '', background?: Color | '', msg?:string) => StandOutOperate,
+
   /**
    * @description: 清除所有控制属性
    * @param {string} msg 附加消息
@@ -145,15 +154,15 @@ interface StandOutOperate {
 
 /**
  * @description: 获取字体样式
- * @param {Color | ''} font_color 字体颜色
+ * @param {Color | ''} fontColor 字体颜色
  * @param {Color | ''} background 背景色
  * @param {string} msg 附加消息
  * @return {String} 格式化后的消息
  */
-export function getFontStyle (font_color?: Color | '', background?: Color | '', msg:string = '') : string {
-  const colorPos = 30 + ColorEnum[font_color];
-  const backPos = 40 + ColorEnum[background];
-  const content = Buffer.from(`${background?backPos:''};${font_color?colorPos:''}m${msg}`);
+export function getFontStyle(fontColor?: Color | '', background?: Color | '', msg:string = '') : string {
+  const colorPos = 30 + ColorMap[fontColor];
+  const backPos = 40 + ColorMap[background];
+  const content = Buffer.from(`${background ? backPos : ''};${fontColor ? colorPos : ''}m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
 
@@ -162,7 +171,7 @@ export function getFontStyle (font_color?: Color | '', background?: Color | '', 
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function clearAllProps (msg:string = '') {
+export function clearAllProps(msg:string = '') {
   const content = Buffer.from(`0m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -172,7 +181,7 @@ export function clearAllProps (msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getHighlightString (msg:string = '') {
+export function getHighlightString(msg:string = '') {
   const content = Buffer.from(`1m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -182,7 +191,7 @@ export function getHighlightString (msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getUnderLineString (msg:string = '') {
+export function getUnderLineString(msg:string = '') {
   const content = Buffer.from(`4m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -192,7 +201,7 @@ export function getUnderLineString (msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getBlinkString (msg:string = '') {
+export function getBlinkString(msg:string = '') {
   const content = Buffer.from(`5m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -202,7 +211,7 @@ export function getBlinkString (msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getRDisplayString (msg:string = '') {
+export function getRDisplayString(msg:string = '') {
   const content = Buffer.from(`7m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -212,7 +221,7 @@ export function getRDisplayString (msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getCancelHideString (msg:string = '') {
+export function getCancelHideString(msg:string = '') {
   const content = Buffer.from(`8m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -224,7 +233,7 @@ export function getCancelHideString (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function controlArrowMove (direct:Direct = 'down', lines:number = 0, msg:string = '') {
+export function controlArrowMove(direct:Direct = 'down', lines:number = 0, msg:string = '') {
   const content = Buffer.from(`${lines}${MapDirect[direct]}${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -236,8 +245,8 @@ export function controlArrowMove (direct:Direct = 'down', lines:number = 0, msg:
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function setArrowPosition (x:number | '', y:number | '', msg:string = '') {
-  const content = Buffer.from(`${y !== 0 && !y?'':y};${x !== 0 && !x?'':x}H${msg}`);
+export function setArrowPosition(x:number | '', y:number | '', msg:string = '') {
+  const content = Buffer.from(`${y !== 0 && !y ? '' : y};${x !== 0 && !x ? '' : x}H${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
 
@@ -246,7 +255,7 @@ export function setArrowPosition (x:number | '', y:number | '', msg:string = '')
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function clearScreen (msg:string = '') {
+export function clearScreen(msg:string = '') {
   const content = Buffer.from(`2J${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -256,7 +265,7 @@ export function clearScreen (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
- export function saveArrowPosition (msg:string = '') {
+export function saveArrowPosition(msg:string = '') {
   const content = Buffer.from(`s${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -266,7 +275,7 @@ export function clearScreen (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
- export function readArrowPosition (msg:string = '') {
+export function readArrowPosition(msg:string = '') {
   const content = Buffer.from(`u${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -276,7 +285,7 @@ export function clearScreen (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
- export function hideArrow (msg:string = '') {
+export function hideArrow(msg:string = '') {
   const content = Buffer.from(`?25l${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -286,7 +295,7 @@ export function clearScreen (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
- export function showArrow (msg:string = '') {
+export function showArrow(msg:string = '') {
   const content = Buffer.from(`?25h${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -296,30 +305,30 @@ export function clearScreen (msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
- export function clearPositionAfter (msg:string = '') {
+export function clearPositionAfter(msg:string = '') {
   const content = Buffer.from(`K${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
 
-function bindControlFunc (func, cache, self) {
-  return function (...arg) {
+function bindControlFunc(func, cache, self) {
+  return function binded(...arg) {
     cache.value += func(...arg);
     return self;
-  }
+  };
 }
 
-export function getFmtString (msg:string = '') {
+export function getFmtString(_msg:string = '') {
   const cache = {
-    value: clearAllProps()+msg
+    value: clearAllProps() + _msg,
   };
   const op:StandOutOperate = {
-    msg:function (msg:string = '') {
+    msg(msg:string = '') {
       cache.value += msg;
       return op;
     },
-    end:function () {
-      return cache.value+clearAllProps();
-    }
+    end() {
+      return cache.value + clearAllProps();
+    },
   };
   op.setFont = bindControlFunc(getFontStyle, cache, op);
   op.clearProps = bindControlFunc(clearAllProps, cache, op);

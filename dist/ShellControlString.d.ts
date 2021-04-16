@@ -3,15 +3,24 @@ export declare const PREFIX: Buffer;
 declare type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
 declare type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
 interface StandOutOperate {
+    /**
+     * @description: 附加消息
+     * @param {string} msg 要附加的消息
+     * @return {StandOutOperate}
+     */
     msg?: (msg?: string) => StandOutOperate;
+    /**
+     * @description: 结束并获得格式化后的字符
+     * @return {string}
+     */
     end?: () => string;
     /**
      * @description: 设置字体样式
-     * @param {Color | ''} font_color 字体颜色
+     * @param {Color | ''} fontColor 字体颜色
      * @param {Color | ''} background 背景色
      * @return {StandOutOperate}
      */
-    setFont?: (font_color?: Color | '', background?: Color | '', msg?: string) => StandOutOperate;
+    setFont?: (fontColor?: Color | '', background?: Color | '', msg?: string) => StandOutOperate;
     /**
      * @description: 清除所有控制属性
      * @param {string} msg 附加消息
@@ -103,12 +112,12 @@ interface StandOutOperate {
 }
 /**
  * @description: 获取字体样式
- * @param {Color | ''} font_color 字体颜色
+ * @param {Color | ''} fontColor 字体颜色
  * @param {Color | ''} background 背景色
  * @param {string} msg 附加消息
  * @return {String} 格式化后的消息
  */
-export declare function getFontStyle(font_color?: Color | '', background?: Color | '', msg?: string): string;
+export declare function getFontStyle(fontColor?: Color | '', background?: Color | '', msg?: string): string;
 /**
  * @description: 清除所有控制属性
  * @param {string} msg 消息
@@ -197,5 +206,5 @@ export declare function showArrow(msg?: string): string;
  * @return {string} 格式化后的消息
  */
 export declare function clearPositionAfter(msg?: string): string;
-export declare function getFmtString(msg?: string): StandOutOperate;
+export declare function getFmtString(_msg?: string): StandOutOperate;
 export {};
