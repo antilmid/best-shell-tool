@@ -12,7 +12,7 @@ describe('ShellControlString', function() {
       assert.equal(bst.getFontStyle('black', 'white', '白底黑字'), "\033[47;30m白底黑字");
     });
     it('默认值应该是黑底白字', function() {
-      assert.equal(bst.getFontStyle(), "\033[40;37m");
+      assert.equal(bst.getFontStyle(), "\033[;m");
     });
   });
   // 测试清除所有属性
@@ -138,6 +138,18 @@ describe('ShellControlString', function() {
     it('期望清除从光标到行尾的内容', function() {
       assert.equal(bst.clearPositionAfter(), "\33[K");
       assert.equal(bst.clearPositionAfter('特定消息'), "\33[K特定消息");
+    });
+  });
+  // 格式字体流测试
+  describe('#getFmtString()', function() {
+    it('期望得到正确的格式后字符串', function() {
+      const colorString = bst
+        .getFmtString('我是普通字体')
+        .setFont('red')
+        .msg('我是红色')
+        .setFont('blue', 'white', '我是蓝色字白色背景')
+        .end()
+      assert.equal(colorString, "\x1B[0m我是普通字体\x1B[;31m我是红色\x1B[47;34m我是蓝色字白色背景\x1B[0m");
     });
   });
 });
