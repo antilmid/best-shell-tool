@@ -10,6 +10,28 @@ console.log(
   .end()
 )
 
-console.log(
-  // bst.getFontStyle('', 'yellow', '我是黄底警告')
-)
+// 测试倒计时
+// let t = 0;
+// console.log(bst.clearScreen())
+// const timer = setInterval(()=>{
+//   console.log(
+//     bst.getFmtString(t)
+//     .arrowMove('上', 1)
+//     .hideArrow()
+//     .clearAfter()
+//     .end()
+//   )
+//   t++;
+// }, 1000)
+
+// 测试倒计时2
+let t = 0;
+const timer = setInterval(()=>{
+  console.log(
+    bst.getFmtString()
+    .clear()
+    .setArrow(0, 0, t)
+    .end()
+  )
+  t++;
+}, 1000)
