@@ -24,7 +24,7 @@ console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
 ```
 
 输出：
-![001](./src/字体样式.jpg)
+![001](./img/字体样式.jpg)
 
 2. **clearAllProps** 获取清除所有属性的shell消息
 3. **getHighlightString** 获取高亮的shell消息
