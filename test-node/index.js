@@ -102,6 +102,10 @@ const iostand = new bst.IOStand();
 // })()
 
 // iostand.write('hello')
-iostand.writeChain().setFont('red', '', 'haha')
+// iostand.writeChain().setFont('red', '', 'haha')
 
 // console.log(iostand.writeChain)
+
+console.log(bst.getFontStyle('blue', '', '我是蓝色字'))
+console.log(bst.getFontStyle('red', '', '我是红色字'))
+console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
