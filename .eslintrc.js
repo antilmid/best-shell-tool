@@ -18,5 +18,7 @@ module.exports = {
     'no-param-reassign': 1,
     'import/no-unresolved': 0,
     '@typescript-eslint/no-unused-vars': 2,
+    'import/extensions': 0,
+    'no-undef': 0,
   },
 };

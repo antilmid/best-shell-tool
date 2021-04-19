@@ -2,7 +2,7 @@
 export const PREFIX = Buffer.from([0x1b, 0x5b]);
 
 // 颜色管理
-type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
+export type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
 const ColorMap = {
   black: 0,
   red: 1,
@@ -15,7 +15,7 @@ const ColorMap = {
 };
 
 // 方向管理
-type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
+export type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
 const MapDirect = {
   up: 'A',
   上: 'A',

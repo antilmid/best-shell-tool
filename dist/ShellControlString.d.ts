@@ -1,7 +1,7 @@
 /// <reference types="node" />
 export declare const PREFIX: Buffer;
-declare type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
-declare type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
+export declare type Color = 'black' | 'red' | 'green' | 'yellow' | 'blue' | 'purple' | 'celeste' | 'white';
+export declare type Direct = 'up' | 'down' | 'right' | 'left' | '上' | '下' | '左' | '右';
 interface StandOutOperate {
     /**
      * @description: 附加消息
