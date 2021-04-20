@@ -127,11 +127,44 @@ const iostand = new bst.IOStand();
 // console.log(bst.readArrowPosition('?之前的文字呢'))
 // console.log('hi, js')
 
-console.log(
-  bst.getFmtString('我是普通字体')
-  .setFont('red', '', '我是红色字体')
-  .clearProps()
-  .underline('没想到我带下划线了')
-  .setFont('blue', '', '我蓝了')
-  .end()
-)
+// console.log(
+//   bst.getFmtString('我是普通字体')
+//   .setFont('red', '', '我是红色字体')
+//   .clearProps()
+//   .underline('没想到我带下划线了')
+//   .setFont('blue', '', '我蓝了')
+//   .end()
+// )
+
+function process (current, total, len = 10) {
+  const back = bst.getFontStyle('', 'white', ' ')
+  const active = bst.getFontStyle('', 'green', ' ')
+  const activeNum = parseInt((current / total) * len, 10)
+  let processStr = ''
+  for(let i = 0; i < len; i++) {
+    if(i < activeNum) processStr += active
+    else processStr += back
+  }
+  console.log(
+    bst.getFmtString()
+    .hideArrow()
+    .arrowMove('上', 1)
+    .clearAfter(processStr)
+    .clearProps()
+    .msg(current)
+    .msg('/')
+    .msg(total)
+    .end()
+  )
+}
+
+let count = 0
+let total = 21
+console.log('准备加载进度\n')
+setTimeout(()=>{
+  const timer = setInterval(()=>{
+    if(count === total) clearInterval(timer)
+    process(count, total, 25)
+    count++
+  }, 1000)
+}, 1000)

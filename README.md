@@ -101,7 +101,7 @@ console.log(bst.getBlinkString('我是闪烁字'))
 console.log(bst.getFontStyle('red') + bst.getBlinkString('我是红色闪烁字'))
 ```
 
-#### **6. getRDisplayString** 
+#### **2.6 getRDisplayString** 
 获取反显的shell消息，所谓反显，就是模拟文字被选中的状态，一般呈现为 背景=字体颜色， 字体颜色=背景。
 
 `getRDisplayString(msg:string):string`
@@ -119,7 +119,7 @@ console.log(bst.getFontStyle('red') + bst.getRDisplayString('我是红色字反�
 
 ![图五](./img/反显状态.jpg)
 
-#### **7. getCancelHideString** 
+#### **2.7 getCancelHideString** 
 获取消隐的shell消息，消隐的消息在控制台是看不见的，但是占位符是真实存在的，并且文字也是可以真实复制的。
 
 `getCancelHideString(msg:string):string`
@@ -132,7 +132,7 @@ console.log(bst.clearAllProps('我是普通字'))
 console.log(bst.getCancelHideString('我是消隐状态'))
 ```
 
-#### **8. controlArrowMove** 
+#### **2.8 controlArrowMove** 
 控制shell光标移动的shell消息，通过方向指令和移动数量来控制光标的移动，可以实现在不同位置做输出的功能。
 
 `controlArrowMove(direct:Direct, lines:number, msg:string):string`
@@ -157,42 +157,42 @@ console.log(bst.controlArrowMove('上', 2, '我是移动后的'))
 
 ![图六](./img/控制移动.jpg)
 
-#### **9. setArrowPosition** 
+#### **2.9 setArrowPosition** 
 设置shell光标位置的shell消息，和controlArrowMove相比，这个是直接通过指定坐标点来移动光标。
 
 `setArrowPosition(x:number | '', y:number | '', msg:string):string`
 
-#### **10. clearScreen** 
+#### **2.10 clearScreen** 
 清屏，顾名思义，清除之前屏幕所有的内容。
 
 `clearScreen(msg:string):string`
 
-#### **11. saveArrowPosition** 
+#### **2.11 saveArrowPosition** 
 保存当前光标位置
 
 `saveArrowPosition(msg:string):string`
 
-#### **12. readArrowPosition** 
+#### **2.12 readArrowPosition** 
 取出之前保存的光标位置
 
 `saveArrowPosition(msg:string):string`
 
-#### **13. hideArrow** 
+#### **2.13 hideArrow** 
 隐藏光标，就是把shell的那个小黑点隐藏。
 
 `hideArrow(msg:string):string`
 
-#### **14. showArrow** 
+#### **2.14 showArrow** 
 显示光标
 
 `showArrow(msg:string):string`
 
-#### **15. clearPositionAfter** 
+#### **2.15 clearPositionAfter** 
 清除光标之后这一行的消息。在制作进度条的时候可以用它时时清除一行后的消息，保留之前输出的消息。
 
 `clearPositionAfter(msg:string):string`
 
-#### **16. getFmtString** 
+#### **2.16 getFmtString** 
 获取格式化字符串。和前面的不同，这个是链式获取一串格式化消息，通过end结束链式调用，拿到格式化消息。其中每次返回的`StandOutOperate`操作对象，里面的所有操作链都能和前面的函数一一对应。
 
 `function getFmtString(_msg:string):StandOutOperate`
@@ -340,3 +340,42 @@ console.log(
 输出：
 
 ![图七](./img/格式化链.jpg)
+
+#### 2.17 基于控制字符实现一个 进度条 功能
+这里是一个简单的实战教学，基于前文提供的api制作一个简单的`进度条`功能。当然，因为这个`进度条`工具很常用，BST自带的组件库里面已经封装了`进度条`。这里的实现只是为了大家更好的掌握和熟悉`BST-控制字符模块`的功能。
+
+示例：
+```javascript
+function process (current, total, len = 10) {
+  const back = bst.getFontStyle('', 'white', ' ')
+  const active = bst.getFontStyle('', 'green', ' ')
+  const activeNum = parseInt((current / total) * len, 10)
+  let processStr = ''
+  for(let i = 0; i < len; i++) {
+    if(i < activeNum) processStr += active
+    else processStr += back
+  }
+  console.log(
+    bst.getFmtString()
+    .hideArrow()
+    .arrowMove('上', 1)
+    .clearAfter(processStr)
+    .clearProps()
+    .msg(current)
+    .msg('/')
+    .msg(total)
+    .end()
+  )
+}
+
+let count = 0
+let total = 21
+console.log('准备加载进度\n')
+setTimeout(()=>{
+  const timer = setInterval(()=>{
+    if(count === total) clearInterval(timer)
+    process(count, total, 25)
+    count++
+  }, 1000)
+}, 1000)
+```
