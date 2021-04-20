@@ -106,6 +106,18 @@ const iostand = new bst.IOStand();
 
 // console.log(iostand.writeChain)
 
-console.log(bst.getFontStyle('blue', '', '我是蓝色字'))
-console.log(bst.getFontStyle('red', '', '我是红色字'))
-console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
+// console.log(bst.getFontStyle('blue', '', '我是蓝色字'))
+// console.log(bst.getFontStyle('red', '', '我是红色字'))
+// console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
+
+
+// console.log(bst.getFontStyle('blue')+'我是蓝色')
+// console.log(bst.getFontStyle('blue')+bst.clearAllProps('我的蓝色属性没有被继承过来'))
+
+// console.log(bst.clearAllProps('我是普通字'))
+// console.log(bst.getHighlightString('我是高亮字'))
+// console.log(bst.getFontStyle('red') + bst.getHighlightString('我是红色高亮字'))
+
+console.log(bst.clearAllProps('我是普通字'))
+console.log(bst.getBlinkString('我是闪烁字'))
+console.log(bst.getFontStyle('red') + bst.getBlinkString('我是红色闪烁字'))
