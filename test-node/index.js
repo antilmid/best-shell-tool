@@ -118,6 +118,20 @@ const iostand = new bst.IOStand();
 // console.log(bst.getHighlightString('我是高亮字'))
 // console.log(bst.getFontStyle('red') + bst.getHighlightString('我是红色高亮字'))
 
-console.log(bst.clearAllProps('我是普通字'))
-console.log(bst.getBlinkString('我是闪烁字'))
-console.log(bst.getFontStyle('red') + bst.getBlinkString('我是红色闪烁字'))
+// console.log(bst.clearAllProps('我是普通字'))
+// console.log(bst.getCancelHideString('我是消隐状态'))
+// console.log(bst.getFontStyle('red') + bst.getCancelHideString('我是红色字消隐状态'))
+
+
+// console.log(bst.saveArrowPosition('hello world'))
+// console.log(bst.readArrowPosition('?之前的文字呢'))
+// console.log('hi, js')
+
+console.log(
+  bst.getFmtString('我是普通字体')
+  .setFont('red', '', '我是红色字体')
+  .clearProps()
+  .underline('没想到我带下划线了')
+  .setFont('blue', '', '我蓝了')
+  .end()
+)
