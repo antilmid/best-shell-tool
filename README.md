@@ -413,6 +413,8 @@ interface StandOutOperate {
 
 示例：
 ```javascript
+const bst = require('best-shell-tool')
+
 console.log(
   bst.getFmtString('我是普通字体')
   .setFont('red', '', '我是红色字体')
@@ -574,3 +576,81 @@ interface ParseStruct {
   ```
 
   <br>
+
+#### **3.2 parser函数**
+
+<br>
+
+parser函数是BST CommandParse模块提供的CommandX语法解析函数，用它可以将CommandX语法编译成js对象。参数`str`是要解析commandX语法，参数`mode`是指定报错模式，如果为`normal`，使用`console.log`进行错误提示。如果为`strict`，错误直接抛出。参数`isDebugger`是用来调试编译的语法分析，如果为`true`，则在每一次意外的语法分析，输出当前语法分析状态机的状态<br>
+`function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = false):ParseStruct`
+
+关于ParseStruct的定义如下TS所示：
+```ts
+interface ParseStruct {
+  command?: string,
+  defaultArgs?: string,
+  args?: {
+    [argsName:string]:any
+  }
+}
+```
+
+示例: 
+```javascript
+const bst = require('best-shell-tool')
+
+const res = bst.cmParser.parser('command -arg hello,world')
+console.log(res)
+```
+
+输出:
+```javascript
+{ args: { arg: 'hello,world' }, command: 'command' }
+```
+
+<br>
+
+#### **3.3 data2Commandx函数**
+
+<br>
+
+data2Commandx函数是parser的一个逆向过程，它能将命令对象转换成CommandX语法。<br>
+`function data2Commandx(data:ParseStruct):string`
+
+关于ParseStruct的定义如下TS所示：
+```ts
+interface ParseStruct {
+  command?: string,
+  defaultArgs?: string,
+  args?: {
+    [argsName:string]:any
+  }
+}
+```
+
+示例: 
+```javascript
+const bst = require('best-shell-tool')
+
+const data = {
+  args: { isOpen: true, x: '10', y: '20' },
+  command: 'command',
+  defaultArgs: 'hello,world'
+}
+const res = bst.cmParser.data2Commandx(data)
+console.log(res)
+```
+
+输出:<br>
+`command "hello,world" -isOpen -x "10" -y "20"`
+
+<br>
+
+#### **3.4 formatFree函数**
+
+<br>
+
+formatFree函数是一个用来将自由非限定字符串转化为js字符串，CommandX的parser对于自由非限定字符串就是使用该函数实现。<br>
+`function formatFree(str:string):string`
+
+---

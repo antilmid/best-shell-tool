@@ -1,4 +1,4 @@
-const bst = require('../dist')
+const bst = require("../dist");
 
 // console.log(
 //   bst.getFmtString('我是普通消息')
@@ -36,7 +36,6 @@ const bst = require('../dist')
 //   t++;
 // }, 1000)
 
-
 // var stdin = process.openStdin();
 // stdin.on('data', (dt)=>{
 //   console.log(dt)
@@ -67,7 +66,6 @@ const bst = require('../dist')
 // process.stdin.on('close',()=>{})
 
 // console.log(bst)
-
 
 // const iostand = new bst.IOStand();
 // iostand.start();
@@ -110,7 +108,6 @@ const bst = require('../dist')
 // console.log(bst.getFontStyle('red', '', '我是红色字'))
 // console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
 
-
 // console.log(bst.getFontStyle('blue')+'我是蓝色')
 // console.log(bst.getFontStyle('blue')+bst.clearAllProps('我的蓝色属性没有被继承过来'))
 
@@ -121,7 +118,6 @@ const bst = require('../dist')
 // console.log(bst.clearAllProps('我是普通字'))
 // console.log(bst.getCancelHideString('我是消隐状态'))
 // console.log(bst.getFontStyle('red') + bst.getCancelHideString('我是红色字消隐状态'))
-
 
 // console.log(bst.saveArrowPosition('hello world'))
 // console.log(bst.readArrowPosition('?之前的文字呢'))
@@ -169,8 +165,21 @@ const bst = require('../dist')
 //   }, 1000)
 // }, 1000)
 
-const iostand = new bst.IOStand();
-iostand.oninput = (data) => {
-  console.log(bst.cmParser.parser(data.toString(), 'normal', true))
-}
-iostand.start()
+// const iostand = new bst.IOStand();
+// iostand.oninput = (data) => {
+//   console.log(bst.cmParser.parser(data.toString(), "normal", true));
+// };
+// iostand.start();
+
+// a = { args: { arg1: "你好世界", arg2: "我是参数2" }, command: "command" };
+
+// const res = bst.cmParser.parser('command -arg hello,world');
+// console.log(res)
+
+const data = {
+  args: { isOpen: true, x: '10', y: '20' },
+  command: 'command',
+  defaultArgs: 'hello,world'
+};
+const res = bst.cmParser.data2Commandx(data);
+console.log(res);
