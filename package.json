@@ -21,7 +21,12 @@
   "scripts": {
     "test": "npm run build; mocha",
     "test-node": "node ./test-node/index.js",
-    "build": "npx rollup -c",
+    "build": "npx rollup -c --environment",
+    "publish": "npx rollup -c --environment NODE_ENV:publish; cd ./npm_publish; npm login; npm publish",
+    "copyMD": "cp ./README.md ./npm_publish",
+    "patch": "npx rollup -c --environment NODE_ENV:publish; npm run copyMD; cd ./npm_publish; npm login; npm version patch; npm publish",
+    "minor": "npx rollup -c --environment NODE_ENV:publish; npm run copyMD; cd ./npm_publish; npm login; npm version minor; npm publish",
+    "major": "npx rollup -c --environment NODE_ENV:publish; npm run copyMD; cd ./npm_publish; npm login; npm version major; npm publish",
     "start": "node ./rollupEntry.js",
     "lint": "eslint src/** --fix --config .eslintrc.js",
     "prepare": "husky install"

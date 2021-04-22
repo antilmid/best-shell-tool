@@ -1,0 +1,24 @@
+{
+  "name": "best-shell-tool",
+  "version": "1.0.2",
+  "description": "BST实现的是一个shell & command的操作库，分别提供了shell控制字符串操作、shell终端操作、command parse操作和基础shell功能组件四大能力。",
+  "main": "./dist/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antilmid/best-shell-tool.git"
+  },
+  "author": "daviant (Antilmid)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antilmid/best-shell-tool/issues"
+  },
+  "homepage": "https://github.com/antilmid/best-shell-tool#readme",
+  "keywords": [
+    "shell",
+    "commander",
+    "command",
+    "commandX",
+    "shell js"
+  ]
+}
