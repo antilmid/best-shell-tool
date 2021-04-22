@@ -1,6 +1,16 @@
 # Best Shell tool
 `dev以来需要用--legacy-peer-deps来解决冲突`
 
+![npm version](https://img.shields.io/npm/v/best-shell-tool)
+![npm version](https://img.shields.io/node/v/best-shell-tool)
+![npm bundle size](https://img.shields.io/bundlephobia/min/best-shell-tool)
+![github activity](https://img.shields.io/github/commit-activity/m/antilmid/best-shell-tool)
+![languages](https://img.shields.io/github/languages/top/antilmid/best-shell-tool)
+![gitHub watchers](https://img.shields.io/github/watchers/antilmid/best-shell-tool?style=social)
+![gitHub stars](https://img.shields.io/github/stars/antilmid/best-shell-tool?style=social
+)
+
+
 ---
 ### 1. 关于BST
 <br>
