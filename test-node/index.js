@@ -69,7 +69,7 @@ const bst = require('../dist')
 // console.log(bst)
 
 
-const iostand = new bst.IOStand();
+// const iostand = new bst.IOStand();
 // iostand.start();
 // iostand.exit();
 // iostand.start();
@@ -136,35 +136,41 @@ const iostand = new bst.IOStand();
 //   .end()
 // )
 
-function process (current, total, len = 10) {
-  const back = bst.getFontStyle('', 'white', ' ')
-  const active = bst.getFontStyle('', 'green', ' ')
-  const activeNum = parseInt((current / total) * len, 10)
-  let processStr = ''
-  for(let i = 0; i < len; i++) {
-    if(i < activeNum) processStr += active
-    else processStr += back
-  }
-  console.log(
-    bst.getFmtString()
-    .hideArrow()
-    .arrowMove('上', 1)
-    .clearAfter(processStr)
-    .clearProps()
-    .msg(current)
-    .msg('/')
-    .msg(total)
-    .end()
-  )
-}
+// function process (current, total, len = 10) {
+//   const back = bst.getFontStyle('', 'white', ' ')
+//   const active = bst.getFontStyle('', 'green', ' ')
+//   const activeNum = parseInt((current / total) * len, 10)
+//   let processStr = ''
+//   for(let i = 0; i < len; i++) {
+//     if(i < activeNum) processStr += active
+//     else processStr += back
+//   }
+//   console.log(
+//     bst.getFmtString()
+//     .hideArrow()
+//     .arrowMove('上', 1)
+//     .clearAfter(processStr)
+//     .clearProps()
+//     .msg(current)
+//     .msg('/')
+//     .msg(total)
+//     .end()
+//   )
+// }
 
-let count = 0
-let total = 21
-console.log('准备加载进度\n')
-setTimeout(()=>{
-  const timer = setInterval(()=>{
-    if(count === total) clearInterval(timer)
-    process(count, total, 25)
-    count++
-  }, 1000)
-}, 1000)
+// let count = 0
+// let total = 21
+// console.log('准备加载进度\n')
+// setTimeout(()=>{
+//   const timer = setInterval(()=>{
+//     if(count === total) clearInterval(timer)
+//     process(count, total, 25)
+//     count++
+//   }, 1000)
+// }, 1000)
+
+const iostand = new bst.IOStand();
+iostand.oninput = (data) => {
+  console.log(bst.cmParser.parser(data.toString()))
+}
+iostand.start()
