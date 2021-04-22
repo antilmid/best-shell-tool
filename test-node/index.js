@@ -171,6 +171,6 @@ const bst = require('../dist')
 
 const iostand = new bst.IOStand();
 iostand.oninput = (data) => {
-  console.log(bst.cmParser.parser(data.toString()))
+  console.log(bst.cmParser.parser(data.toString(), 'normal', true))
 }
 iostand.start()

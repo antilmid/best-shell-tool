@@ -15,7 +15,7 @@ const ARG_START = /[a-zA-Z]/g;
 const ARG_CONTENT = /[a-zA-Z0-9]/g;
 const ARG_VALUE_STRING = /[^\\"]/g;
 const ARG_VALUE_FREE = /[^ -]/g;
-const ARG_DEFAULT_VALUE_FREE = /[^ -]/g;
+// const ARG_DEFAULT_VALUE_FREE = /[^ -]/g;
 
 /**
  * @description: 格式化自由输入参数
@@ -64,6 +64,10 @@ function assertState(state:string, mode:Mode = 'strict') {
     err = '已经存在defaultArgs默认参数';
   } else if (state === 'have-command-argStart') {
     err = '没有填写参数名或参数填写不正确';
+  } else if (state === 'have-command-none') {
+    err = '参数量输入过多';
+  } else if (state === 'have-command-argValueString') {
+    err = '参数量输入过多，导致无法闭合';
   }
   // 报错
   if (err && mode === 'strict') {
@@ -121,6 +125,8 @@ export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = fa
     if (state === 'none' && str[pos].match(COMMAND_START)) { //
       state = 'command';
       cache = str[pos];
+    } else if (state === 'none' && str[pos].match(' ')) {
+      state = 'none';
     } else if (state === 'command' && str[pos].match(COMMAND_CONTENT)) {
       cache += str[pos];
     } else if (state === 'command' && str[pos].match(' ')) {
@@ -164,13 +170,10 @@ export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = fa
       dataStruct.defaultArgs = cache;
     } else if (state === 'have-command-argValueEnd' && str[pos].match(' ')) {
       state = 'have-command-none';
-    } else if (state === 'have-command-none' && str[pos].match(ARG_VALUE_FREE) && cacheArgName) {
+    } else if (state === 'have-command-none' && str[pos].match(ARG_VALUE_FREE) && !cacheArgName && !dataStruct.defaultArgs) {
       state = 'have-command-argValueFree';
       cache = str[pos];
     } else if (state === 'have-command-argsDone' && str[pos].match(ARG_VALUE_FREE) && cacheArgName) {
-      state = 'have-command-argValueFree';
-      cache = str[pos];
-    } else if (state === 'have-command-none' && str[pos].match(ARG_DEFAULT_VALUE_FREE) && !cacheArgName) { ///
       state = 'have-command-argValueFree';
       cache = str[pos];
     } else if (state === 'have-command-argValueFree' && str[pos].match(ARG_VALUE_FREE)) {
@@ -219,4 +222,31 @@ export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = fa
     }
   }
   return dataStruct;
+}
+
+/**
+ * @description: 替换所有转义反斜杠
+ * @param {string} str 要替换的字符
+ * @return {string} 替换的结果
+ */
+function replaceBackslash(str:string) {
+  return str.replace(/\\/, '\\\\');
+}
+
+/**
+ * @description: 命令结构数据转换为CommandX语法
+ * @param {ParseStruct} data 要转换的结构对象
+ * @return {string} 转换后的CommandX语法
+ */
+export function data2Commandx(data:ParseStruct) {
+  let commdx = '';
+  if (data.command !== undefined)commdx += data.command;
+  if (data.defaultArgs !== undefined)commdx += ` "${replaceBackslash(data.defaultArgs)}"`;
+  Object.entries(data.args || {}).map(([key, value]) => {
+    if (value === true) commdx += ` -${key}`;
+    else if (value !== undefined) commdx += ` -${key} "${replaceBackslash(value)}"`;
+    else return false;
+    return true;
+  });
+  return commdx;
 }

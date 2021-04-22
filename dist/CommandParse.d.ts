@@ -20,3 +20,9 @@ export declare function formatFree(str: string): string;
  * @return {ParseStruct} 转换后的语法对象结构
  */
 export declare function parser(str: string, mode?: Mode, isDebugger?: boolean): ParseStruct;
+/**
+ * @description: 命令结构数据转换为CommandX语法
+ * @param {ParseStruct} data 要转换的结构对象
+ * @return {string} 转换后的CommandX语法
+ */
+export declare function data2Commandx(data: ParseStruct): string;
