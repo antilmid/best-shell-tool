@@ -14,7 +14,7 @@ const COMMAND_CONTENT = /[a-zA-Z0-9]/g;
 const ARG_START = /[a-zA-Z]/g;
 const ARG_CONTENT = /[a-zA-Z0-9]/g;
 const ARG_VALUE_STRING = /[^\\"]/g;
-const ARG_VALUE_FREE = /[^ -]/g;
+const ARG_VALUE_FREE = /[^ ]/g;
 // const ARG_DEFAULT_VALUE_FREE = /[^ -]/g;
 
 /**
@@ -92,6 +92,8 @@ function assertEndState(state:string, mode:Mode = 'strict') {
     err = '没有语句可以执行';
   } else if (state === 'have-command-argValueString') {
     err = '字符串语句没有闭合';
+  } else if (state === 'have-command-argStart') {
+    err = '参数填写不完全';
   }
   // 报错
   if (err && mode === 'strict') {
