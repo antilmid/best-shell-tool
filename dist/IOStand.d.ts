@@ -1,6 +1,20 @@
 /// <reference types="node" />
 import { Direct, Color } from './ShellControlString';
-interface StandOutOperate {
+import { ParseStruct } from './CommandParse';
+export interface AddCommandOperate {
+    arg: (notes: string) => AddCommandOperate;
+    defaultArg: (notes: string) => AddCommandOperate;
+    action: (fn: (command: ParseStruct) => Promise<number>) => AddCommandOperate;
+}
+export interface Commander {
+    command: [string, string];
+    defaultArg: string | null;
+    args: {
+        [key: string]: string;
+    };
+    action: (command: ParseStruct) => void;
+}
+export interface StandOutOperate {
     /**
      * @description: 附加消息
      * @param {string} msg 要附加的消息
@@ -106,13 +120,85 @@ interface StandOutOperate {
 export default class IOStand {
     process: NodeJS.Process;
     private __setter__;
+    private __commandChain__;
+    private __localLock__;
     oninput: (data: any) => {} | null;
     dataFormat: (data: Buffer) => any | null;
+    /**
+     * @description: 创建一个新的输入输出操作器
+     * @param { NodeJS.Process} process process构造器
+     * @return {IOStand} 输入输出操作器
+     */
     constructor(_process?: NodeJS.Process);
-    start(): void;
-    awaitInput(): Promise<unknown>;
-    write(data?: string): void;
+    /**
+     * @description: 处理一个异步动作
+     * @param {()=>Promise<any>} fn 要处理的动作
+     * @return {Promise<void>}
+     */
+    doSomething(fn: () => Promise<any>): Promise<void>;
+    /**
+     * @description: 列出所有已经注册过的命令
+     * @return {void}
+     */
+    listAllCommand(): void;
+    /**
+     * @description: 列出一个命令
+     * @param {Commander} commander 要列出的命令
+     * @return {void}
+     */
+    listCommand(commander: Commander): void;
+    /**
+     * @description: 根据命令名查找已经注册的命令
+     * @param {string} command 要查找的命令名称
+     * @return {Commander|null} 查找结果
+     */
+    findCommander(command: string): Commander | null;
+    /**
+     * @description: 等待一次输入，配合await使用更佳
+     * @return {Promise<any>} 输入结果
+     */
+    awaitInput(): Promise<any>;
+    /**
+     * @description: 写出一个数据
+     * @param {string} data 要写出的数据
+     * @return {boolean} 写出状态
+     */
+    write(data?: string): boolean;
+    /**
+     * @description: 链式写出
+     * @param {string} msg 要写出内容
+     * @return {StandOutOperate} 链式操作
+     */
     writeChain(_msg?: string): StandOutOperate;
-    exit(): void;
+    /**
+     * @description: 新增一个命令
+     * @param {string} cmd 命令名
+     * @param {string} notes 备注
+     * @return {AddCommandOperate} 新增命令操作
+     */
+    addCommand(cmd: string, notes?: string): AddCommandOperate;
+    /**
+     * @description: 暂停输入
+     * @return {NodeJS.ReadStream & {fd:0}}
+     */
+    pause(): NodeJS.ReadStream & {
+        fd: 0;
+    };
+    /**
+     * @description: 恢复输入
+     * @return {NodeJS.ReadStream & {fd: 0;}}
+     */
+    resume(): NodeJS.ReadStream & {
+        fd: 0;
+    };
+    /**
+     * @description: 退出控制台
+     * @return {never}
+     */
+    exit(): never;
+    /**
+     * @description: 开启命令交互模式
+     * @return {void}
+     */
+    start(): void;
 }
-export {};

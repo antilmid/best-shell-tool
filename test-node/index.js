@@ -176,10 +176,47 @@ const bst = require("../dist");
 // const res = bst.cmParser.parser('command -arg hello,world');
 // console.log(res)
 
-const data = {
-  args: { isOpen: true, x: '10', y: '20' },
-  command: 'command',
-  defaultArgs: 'hello,world'
-};
-const res = bst.cmParser.data2Commandx(data);
-console.log(res);
+// const data = {
+//   args: { isOpen: true, x: '10', y: '20' },
+//   command: 'command',
+//   defaultArgs: 'hello,world'
+// };
+// const res = bst.cmParser.data2Commandx(data);
+// console.log(res);
+
+// const iostand = new bst.IOStand();
+// iostand.addCommand('test', '测试命令')
+//   .defaultArg('要测试的地址')
+//   .action(()=>{});
+
+// iostand.addCommand('async', '异步命令')
+//   .defaultArg('要测试的地址')
+//   .action(()=>{
+//     return new Promise((res)=>{
+//       let i = 0;
+//       const timer = setInterval(()=>{
+//         console.log(i)
+//         if(i === 10){
+//           clearInterval(timer);
+//           res();
+//           // process.stdin.push('\n', 'utf-8')
+//         }
+//         i++;
+//       }, 1000);
+//     })
+//   });
+
+// iostand.listAllCommand()
+// iostand.start()
+
+// const ios = new bst.IOStand();
+// (async () => {
+//   const inp = await ios.awaitInput();
+//   console.log('你输入了', inp)
+// })()
+
+// process.stdin.resume()
+// process.on('message', (...a)=>{
+//   console.log('inp:',a)
+// })
+console.log(process.argv)

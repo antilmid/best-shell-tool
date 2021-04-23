@@ -171,7 +171,7 @@ export function getFontStyle(fontColor?: Color | '', background?: Color | '', ms
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function clearAllProps(msg:string = '') {
+export function clearAllProps(msg:string = '') : string {
   const content = Buffer.from(`0m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -181,7 +181,7 @@ export function clearAllProps(msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getHighlightString(msg:string = '') {
+export function getHighlightString(msg:string = '') : string {
   const content = Buffer.from(`1m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -191,7 +191,7 @@ export function getHighlightString(msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getUnderLineString(msg:string = '') {
+export function getUnderLineString(msg:string = '') : string {
   const content = Buffer.from(`4m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -201,7 +201,7 @@ export function getUnderLineString(msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getBlinkString(msg:string = '') {
+export function getBlinkString(msg:string = '') : string {
   const content = Buffer.from(`5m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -211,7 +211,7 @@ export function getBlinkString(msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getRDisplayString(msg:string = '') {
+export function getRDisplayString(msg:string = '') : string {
   const content = Buffer.from(`7m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -221,7 +221,7 @@ export function getRDisplayString(msg:string = '') {
  * @param {string} msg 消息
  * @return {string} 格式化后的消息
  */
-export function getCancelHideString(msg:string = '') {
+export function getCancelHideString(msg:string = '') : string {
   const content = Buffer.from(`8m${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -233,7 +233,7 @@ export function getCancelHideString(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function controlArrowMove(direct:Direct = 'down', lines:number = 0, msg:string = '') {
+export function controlArrowMove(direct:Direct = 'down', lines:number = 0, msg:string = '') : string {
   const content = Buffer.from(`${lines}${MapDirect[direct]}${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -245,7 +245,7 @@ export function controlArrowMove(direct:Direct = 'down', lines:number = 0, msg:s
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function setArrowPosition(x:number | '', y:number | '', msg:string = '') {
+export function setArrowPosition(x:number | '', y:number | '', msg:string = '') : string {
   const content = Buffer.from(`${y !== 0 && !y ? '' : y}${x !== 0 && !x ? '' : `;${x}`}H${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -255,7 +255,7 @@ export function setArrowPosition(x:number | '', y:number | '', msg:string = '') 
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function clearScreen(msg:string = '') {
+export function clearScreen(msg:string = '') : string {
   const content = Buffer.from(`2J${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -265,7 +265,7 @@ export function clearScreen(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function saveArrowPosition(msg:string = '') {
+export function saveArrowPosition(msg:string = '') : string {
   const content = Buffer.from(`s${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -275,7 +275,7 @@ export function saveArrowPosition(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function readArrowPosition(msg:string = '') {
+export function readArrowPosition(msg:string = '') : string {
   const content = Buffer.from(`u${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -285,7 +285,7 @@ export function readArrowPosition(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function hideArrow(msg:string = '') {
+export function hideArrow(msg:string = '') : string {
   const content = Buffer.from(`?25l${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -295,7 +295,7 @@ export function hideArrow(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function showArrow(msg:string = '') {
+export function showArrow(msg:string = '') : string {
   const content = Buffer.from(`?25h${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -305,7 +305,7 @@ export function showArrow(msg:string = '') {
  * @param {string} msg 附加消息
  * @return {string} 格式化后的消息
  */
-export function clearPositionAfter(msg:string = '') {
+export function clearPositionAfter(msg:string = '') : string {
   const content = Buffer.from(`K${msg}`);
   return Buffer.concat([PREFIX, content]).toString();
 }
@@ -317,7 +317,12 @@ function bindControlFunc(func, cache, self) {
   };
 }
 
-export function getFmtString(_msg:string = '') {
+/**
+ * @description: 链式获取格式化字符
+ * @param {string} _msg 附加消息
+ * @return {StandOutOperate} 操作链
+ */
+export function getFmtString(_msg:string = '') : StandOutOperate {
   const cache = {
     value: clearAllProps() + _msg,
   };

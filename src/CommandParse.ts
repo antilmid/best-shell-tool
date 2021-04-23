@@ -22,7 +22,7 @@ const ARG_VALUE_FREE = /[^ ]/g;
  * @param {string} str 要格式化的参数
  * @return {string} 格式化后的参数
  */
-export function formatFree(str:string) {
+export function formatFree(str:string) : string {
   const newstr = str.replace(/\\(.*?);/g, (matched, $0) => {
     const num = parseInt($0, 10);
     if (Number.isNaN(num)) {
@@ -54,7 +54,7 @@ export function formatFree(str:string) {
  * @param {Mode} mode 分析模式 strict模式下直接抛出Error, normal模式下用console输出错误。
  * @return {boolean} 是否报错
  */
-function assertState(state:string, mode:Mode = 'strict') {
+function assertState(state:string, mode:Mode = 'strict') : boolean {
   let err = '';
   if (state === 'none') {
     err = 'command开头必须是英文字母';
@@ -86,7 +86,7 @@ function assertState(state:string, mode:Mode = 'strict') {
  * @param {Mode} mode 分析模式 strict模式下直接抛出Error, normal模式下用console输出错误。
  * @return {boolean} 是否报错
  */
-function assertEndState(state:string, mode:Mode = 'strict') {
+function assertEndState(state:string, mode:Mode = 'strict') : boolean {
   let err = '';
   if (state === 'none') {
     err = '没有语句可以执行';
@@ -113,7 +113,7 @@ function assertEndState(state:string, mode:Mode = 'strict') {
  * @param {boolean} isDebugger 是否开启语法分析debugger
  * @return {ParseStruct} 转换后的语法对象结构
  */
-export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = false) {
+export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = false) : ParseStruct {
   str = str.replace(/[\r\n\t]/g, '');
   let state = 'none';
   let cache = '';
@@ -231,7 +231,7 @@ export function parser(str:string, mode:Mode = 'normal', isDebugger:boolean = fa
  * @param {string} str 要替换的字符
  * @return {string} 替换的结果
  */
-function replaceBackslash(str:string) {
+function replaceBackslash(str:string) : string {
   return str.replace(/\\/, '\\\\');
 }
 
@@ -240,7 +240,7 @@ function replaceBackslash(str:string) {
  * @param {ParseStruct} data 要转换的结构对象
  * @return {string} 转换后的CommandX语法
  */
-export function data2Commandx(data:ParseStruct) {
+export function data2Commandx(data:ParseStruct) : string {
   let commdx = '';
   if (data.command !== undefined)commdx += data.command;
   if (data.defaultArgs !== undefined)commdx += ` "${replaceBackslash(data.defaultArgs)}"`;

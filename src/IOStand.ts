@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   getFontStyle,
   clearAllProps,
@@ -18,7 +19,24 @@ import {
   Color,
 } from './ShellControlString';
 
-interface StandOutOperate {
+import { ParseStruct, parser } from './CommandParse';
+
+export interface AddCommandOperate {
+  arg: (notes:string) => AddCommandOperate;
+  defaultArg: (notes:string) => AddCommandOperate;
+  action: (fn:(command:ParseStruct)=>Promise<number>)=>AddCommandOperate;
+}
+
+export interface Commander {
+  command: [string, string];
+  defaultArg: string | null;
+  args: {
+    [key:string]:string
+  },
+  action: (command:ParseStruct)=>void;
+}
+
+export interface StandOutOperate {
   /**
    * @description: 附加消息
    * @param {string} msg 要附加的消息
@@ -149,33 +167,135 @@ export default class IOStand {
 
   private __setter__: any;
 
+  private __commandChain__: Commander[];
+
+  private __localLock__ : boolean;
+
   oninput: (data:any)=>{} | null;
 
   dataFormat: (data:Buffer) => any | null;
 
-  constructor(_process = process) {
+  /**
+   * @description: 创建一个新的输入输出操作器
+   * @param { NodeJS.Process} process process构造器
+   * @return {IOStand} 输入输出操作器
+   */
+  constructor(_process : NodeJS.Process = process) {
     this.process = _process;
-    // eslint-disable-next-line no-underscore-dangle
     this.__setter__ = null;
+    this.__commandChain__ = [];
+    this.__localLock__ = false;
     this.oninput = null;
     this.dataFormat = (data:Buffer) => data.toString();
-  }
-
-  start() {
+    // 初始化help命令
+    this.addCommand('help')
+      .defaultArg('要查看帮助的命令（可以不填写）')
+      .action((cmd) => {
+        if (cmd.defaultArgs) {
+          const commander = this.findCommander(cmd.defaultArgs);
+          if (commander) {
+            this.listCommand(commander);
+          } else {
+            this.writeChain('')
+              .setFont('yellow', '', `没有找到 ${cmd.defaultArgs} 命令\n`)
+              .clearProps();
+          }
+        } else {
+          this.listAllCommand();
+        }
+        return Promise.resolve(1);
+      });
+    // 注册data事件
+    this.resume();
     this.process.stdin.on('data', (dt) => {
       const formated = this.dataFormat ? this.dataFormat(dt) : dt;
       // eslint-disable-next-line no-underscore-dangle
+      if (!this.__localLock__ && !this.oninput) {
+        const cmd = parser(dt.toString());
+        const commander = this.findCommander(cmd.command);
+        if (commander && !cmd.args.help) {
+          this.doSomething(async () => { await commander.action(cmd); });
+        } else if (commander && cmd.args.help) {
+          this.listCommand(commander);
+        } else if (cmd.command) {
+          this.writeChain('')
+            .setFont('red', '', `不存在 ${cmd.command} 命令\n`)
+            .clearProps();
+        }
+      }
       if (this.__setter__) this.__setter__(formated);
       if (this.oninput) this.oninput(formated);
     });
+    this.pause();
   }
 
-  awaitInput() {
+  /**
+   * @description: 处理一个异步动作
+   * @param {()=>Promise<any>} fn 要处理的动作
+   * @return {Promise<void>}
+   */
+  async doSomething(fn:()=>Promise<any>):Promise<void> {
+    this.__localLock__ = true;
+    await fn();
+    this.__localLock__ = false;
+  }
+
+  /**
+   * @description: 列出所有已经注册过的命令
+   * @return {void}
+   */
+  listAllCommand():void {
+    this.__commandChain__.map((commander) => {
+      this.listCommand(commander);
+      return 0;
+    });
+  }
+
+  /**
+   * @description: 列出一个命令
+   * @param {Commander} commander 要列出的命令
+   * @return {void}
+   */
+  listCommand(commander:Commander):void {
+    let argTips = '';
+    Object.entries(commander.args).map(([argName, argNote]) => {
+      argTips += `    -${argName} ${argNote}\n`;
+      return 0;
+    });
+    this.writeChain('')
+      .setFont('yellow', '', `${commander.command[0] || ''}    ${commander.command[1] || ''}\n`)
+      .msg(commander.defaultArg ? `    -[默认参数] ${commander.defaultArg}\n` : '')
+      .msg(argTips)
+      .clearProps('\n');
+  }
+
+  /**
+   * @description: 根据命令名查找已经注册的命令
+   * @param {string} command 要查找的命令名称
+   * @return {Commander|null} 查找结果
+   */
+  findCommander(command:string):Commander|null {
+    for (let i = 0; i < this.__commandChain__.length; i += 1) {
+      const commander = this.__commandChain__[i];
+      if (commander.command[0] === command) return commander;
+    }
+    return null;
+  }
+
+  /**
+   * @description: 等待一次输入，配合await使用更佳
+   * @return {Promise<any>} 输入结果
+   */
+  awaitInput():Promise<any> {
+    this.resume();
+    this.__localLock__ = true;
     return new Promise((res, rej) => {
       try {
         // eslint-disable-next-line no-underscore-dangle
         this.__setter__ = (data) => {
           res(data);
+          this.__localLock__ = false;
+          this.pause();
         };
       } catch (error) {
         rej(error);
@@ -183,11 +303,21 @@ export default class IOStand {
     });
   }
 
-  write(data:string = '') {
-    this.process.stdout.write(data);
+  /**
+   * @description: 写出一个数据
+   * @param {string} data 要写出的数据
+   * @return {boolean} 写出状态
+   */
+  write(data:string = ''):boolean {
+    return this.process.stdout.write(data);
   }
 
-  writeChain(_msg:string = '') {
+  /**
+   * @description: 链式写出
+   * @param {string} msg 要写出内容
+   * @return {StandOutOperate} 链式操作
+   */
+  writeChain(_msg:string = ''):StandOutOperate {
     const writter = (data:string) => {
       this.write(data);
     };
@@ -216,7 +346,73 @@ export default class IOStand {
     return op;
   }
 
-  exit() {
-    this.process.exit();
+  /**
+   * @description: 新增一个命令
+   * @param {string} cmd 命令名
+   * @param {string} notes 备注
+   * @return {AddCommandOperate} 新增命令操作
+   */
+  addCommand(cmd:string, notes:string = ''):AddCommandOperate {
+    const commader:Commander = {
+      command: [cmd, notes],
+      defaultArg: null,
+      args: {},
+      action: () => {},
+    };
+    const that = this;
+    return {
+      arg(argName, _notes = '') {
+        commader.args[argName] = _notes;
+        return this as AddCommandOperate;
+      },
+      defaultArg(_notes = '') {
+        commader.defaultArg = _notes;
+        return this as AddCommandOperate;
+      },
+      action(fn) {
+        commader.action = fn;
+        const memo = that.findCommander(commader.command[0]);
+        if (memo) {
+          throw Error(`已经存在${commader.command[0]}，无法重复添加`);
+        } else {
+          that.__commandChain__.push(commader);
+        }
+
+        return this as AddCommandOperate;
+      },
+    } as AddCommandOperate;
+  }
+
+  /**
+   * @description: 暂停输入
+   * @return {NodeJS.ReadStream & {fd:0}}
+   */
+  pause():NodeJS.ReadStream & {fd:0;} {
+    return this.process.stdin.pause();
+  }
+
+  /**
+   * @description: 恢复输入
+   * @return {NodeJS.ReadStream & {fd: 0;}}
+   */
+  resume():NodeJS.ReadStream & {fd: 0;} {
+    return this.process.stdin.resume();
+  }
+
+  /**
+   * @description: 退出控制台
+   * @return {never}
+   */
+  exit():never {
+    return this.process.exit();
+  }
+
+  /**
+   * @description: 开启命令交互模式
+   * @return {void}
+   */
+  start():void {
+    this.__localLock__ = false;
+    this.resume();
   }
 }
