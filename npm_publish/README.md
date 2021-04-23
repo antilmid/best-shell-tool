@@ -50,7 +50,7 @@ console.log(bst.getFontStyle('yellow', 'blue', '我是黄色字蓝色背景'))
 
 输出：
 
-![图一](./img/字体样式.jpg)
+![图一](https://github.com/antilmid/best-shell-tool/blob/master/img/字体样式.jpg)
 
 <br>
 
@@ -72,7 +72,7 @@ console.log(bst.getFontStyle('blue')+bst.clearAllProps('我的蓝色属性没有
 
 输出：
 
-![图二](./img/清除样式.jpg)
+![图二](https://github.com/antilmid/best-shell-tool/blob/master/img/清除样式.jpg)
 
 <br>
 
@@ -95,7 +95,7 @@ console.log(bst.getFontStyle('red') + bst.getHighlightString('我是红色高亮
 
 输出：
 
-![图三](./img/高亮文字.jpg)
+![图三](https://github.com/antilmid/best-shell-tool/blob/master/img/高亮文字.jpg)
 
 <br>
 
@@ -118,7 +118,7 @@ console.log(bst.getFontStyle('red') + bst.getUnderLineString('我是红色下划
 
 输出：
 
-![图四](./img/下划线字.jpg)
+![图四](https://github.com/antilmid/best-shell-tool/blob/master/img/下划线字.jpg)
 
 <br>
 
@@ -160,7 +160,7 @@ console.log(bst.getFontStyle('red') + bst.getRDisplayString('我是红色字反�
 
 输出：
 
-![图五](./img/反显状态.jpg)
+![图五](https://github.com/antilmid/best-shell-tool/blob/master/img/反显状态.jpg)
 
 <br>
 
@@ -208,7 +208,7 @@ console.log(bst.controlArrowMove('上', 2, '我是移动后的'))
 
 输出：
 
-![图六](./img/控制移动.jpg)
+![图六](https://github.com/antilmid/best-shell-tool/blob/master/img/控制移动.jpg)
 
 <br>
 
@@ -437,7 +437,7 @@ console.log(
 
 输出：
 
-![图七](./img/格式化链.jpg)
+![图七](https://github.com/antilmid/best-shell-tool/blob/master/img/格式化链.jpg)
 
 <br>
 
