@@ -1,3 +1,48 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Best Shell tool](#best-shell-tool)
+    - [1. 关于BST](#1-%E5%85%B3%E4%BA%8Ebst)
+    - [2. shell控制字符模块](#2-shell%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E6%A8%A1%E5%9D%97)
+      - [**2.1 getFontStyle**](#21-getfontstyle)
+      - [**2.2 clearAllProps**](#22-clearallprops)
+      - [**2.3 getHighlightString**](#23-gethighlightstring)
+      - [**2.4 getUnderLineString**](#24-getunderlinestring)
+      - [**2.5 getBlinkString**](#25-getblinkstring)
+      - [**2.6 getRDisplayString**](#26-getrdisplaystring)
+      - [**2.7 getCancelHideString**](#27-getcancelhidestring)
+      - [**2.8 controlArrowMove**](#28-controlarrowmove)
+      - [**2.9 setArrowPosition**](#29-setarrowposition)
+      - [**2.10 clearScreen**](#210-clearscreen)
+      - [**2.11 saveArrowPosition**](#211-savearrowposition)
+      - [**2.12 readArrowPosition**](#212-readarrowposition)
+      - [**2.13 hideArrow**](#213-hidearrow)
+      - [**2.14 showArrow**](#214-showarrow)
+      - [**2.15 clearPositionAfter**](#215-clearpositionafter)
+      - [**2.16 getFmtString**](#216-getfmtstring)
+      - [2.17 基于控制字符实现一个 进度条 功能](#217-%E5%9F%BA%E4%BA%8E%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-%E8%BF%9B%E5%BA%A6%E6%9D%A1-%E5%8A%9F%E8%83%BD)
+    - [3. CommandX语法和语法解析器](#3-commandx%E8%AF%AD%E6%B3%95%E5%92%8C%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E5%99%A8)
+      - [**3.1 CommandX语法**](#31-commandx%E8%AF%AD%E6%B3%95)
+      - [**3.2 parser函数**](#32-parser%E5%87%BD%E6%95%B0)
+      - [**3.3 data2Commandx函数**](#33-data2commandx%E5%87%BD%E6%95%B0)
+      - [**3.4 formatFree函数**](#34-formatfree%E5%87%BD%E6%95%B0)
+    - [4. IOStand标准输入输出库](#4-iostand%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%BA%93)
+      - [**4.1 write**](#41-write)
+      - [**4.2 writeChain**](#42-writechain)
+      - [**4.3 start**](#43-start)
+      - [**4.4 addCommand**](#44-addcommand)
+      - [**4.5 listAllCommand**](#45-listallcommand)
+      - [**4.6 awaitInput**](#46-awaitinput)
+      - [**4.7 pause**](#47-pause)
+      - [**4.8 resume**](#48-resume)
+      - [**4.9 exit**](#49-exit)
+      - [**4.10 release**](#410-release)
+      - [5. Tool工具](#5-tool%E5%B7%A5%E5%85%B7)
+      - [**5.1 process进度条**](#51-process%E8%BF%9B%E5%BA%A6%E6%9D%A1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Best Shell tool
 `dev以来需要用--legacy-peer-deps来解决冲突`
 
@@ -1022,6 +1067,56 @@ exit同process.exit，退出控制台。<br>
 
 release是释放IOStand对象，当不再用到IOStand时候，请一定要使用该函数释放<br>
 `release():void`
+
+<br>
+
+---
+
+<br>
+
+#### 5. Tool工具
+
+<br>
+
+Tool提供了一些集成好的小工具，但是目前只提供了一个进度条功能，后续会根据大家的需求进行增加迭代。
+
+<br>
+
+#### **5.1 process进度条**
+
+<br>
+
+process提供的是显示一个进度条能力。<br>
+`function process(current:number, total:number = 100, len:number = 24):string`
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const process = bst.tool.process;
+const iostand = new bst.IOStand();
+
+iostand.addCommand('wait', '等待')
+  .defaultArg('要等待的时间')
+  .action((cmd)=>{
+    console.log('')
+    return new Promise((res) => {
+      const waitTime = parseInt(cmd.defaultArgs, 10) || 0
+      let current = 0
+      const timer = setInterval(()=>{
+        console.log(process(current, waitTime))
+        if(current === waitTime) {
+          clearInterval(timer)
+          console.log('已经结束等待')
+          res()
+        }
+        current += 1
+      }, 1000)
+    })
+  })
+
+iostand.start()
+```
 
 <br>
 

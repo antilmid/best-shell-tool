@@ -221,10 +221,36 @@ const bst = require("../dist");
 // })
 // console.log(process.argv)
 
+// const iostand = new bst.IOStand();
+
+// (async () => {
+//   const inp = await iostand.awaitInput()
+//   console.log('你输入了:', inp)
+// })();
+// iostand.start()
+
+
+const process = bst.tool.process;
 const iostand = new bst.IOStand();
 
-(async () => {
-  const inp = await iostand.awaitInput()
-  console.log('你输入了:', inp)
-})();
-// iostand.start()
+
+iostand.addCommand('wait', '等待')
+  .defaultArg('要等待的时间')
+  .action((cmd)=>{
+    console.log('')
+    return new Promise((res) => {
+      const waitTime = parseInt(cmd.defaultArgs, 10) || 0
+      let current = 0
+      const timer = setInterval(()=>{
+        console.log(process(current, waitTime))
+        if(current === waitTime) {
+          clearInterval(timer)
+          console.log('已经结束等待')
+          res()
+        }
+        current += 1
+      }, 1000)
+    })
+  })
+
+iostand.start()

@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Best Shell tool](#best-shell-tool)
+    - [1. 关于BST](#1-%E5%85%B3%E4%BA%8Ebst)
+    - [2. shell控制字符模块](#2-shell%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E6%A8%A1%E5%9D%97)
+      - [**2.1 getFontStyle**](#21-getfontstyle)
+      - [**2.2 clearAllProps**](#22-clearallprops)
+      - [**2.3 getHighlightString**](#23-gethighlightstring)
+      - [**2.4 getUnderLineString**](#24-getunderlinestring)
+      - [**2.5 getBlinkString**](#25-getblinkstring)
+      - [**2.6 getRDisplayString**](#26-getrdisplaystring)
+      - [**2.7 getCancelHideString**](#27-getcancelhidestring)
+      - [**2.8 controlArrowMove**](#28-controlarrowmove)
+      - [**2.9 setArrowPosition**](#29-setarrowposition)
+      - [**2.10 clearScreen**](#210-clearscreen)
+      - [**2.11 saveArrowPosition**](#211-savearrowposition)
+      - [**2.12 readArrowPosition**](#212-readarrowposition)
+      - [**2.13 hideArrow**](#213-hidearrow)
+      - [**2.14 showArrow**](#214-showarrow)
+      - [**2.15 clearPositionAfter**](#215-clearpositionafter)
+      - [**2.16 getFmtString**](#216-getfmtstring)
+      - [2.17 基于控制字符实现一个 进度条 功能](#217-%E5%9F%BA%E4%BA%8E%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-%E8%BF%9B%E5%BA%A6%E6%9D%A1-%E5%8A%9F%E8%83%BD)
+    - [3. CommandX语法和语法解析器](#3-commandx%E8%AF%AD%E6%B3%95%E5%92%8C%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E5%99%A8)
+      - [**3.1 CommandX语法**](#31-commandx%E8%AF%AD%E6%B3%95)
+      - [**3.2 parser函数**](#32-parser%E5%87%BD%E6%95%B0)
+      - [**3.3 data2Commandx函数**](#33-data2commandx%E5%87%BD%E6%95%B0)
+      - [**3.4 formatFree函数**](#34-formatfree%E5%87%BD%E6%95%B0)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Best Shell tool
 `dev以来需要用--legacy-peer-deps来解决冲突`
 
