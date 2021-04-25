@@ -664,3 +664,365 @@ formatFree函数是一个用来将自由非限定字符串转化为js字符串�
 `function formatFree(str:string):string`
 
 ---
+
+<br>
+
+### 4. IOStand标准输入输出库
+
+<br>
+
+BST提供了一个标准输入输出管理，用它可以轻松管理shell控制台的输入输出。
+
+#### ** 4.1 write **
+
+<br>
+
+IOStand的write函数是输出一条消息到控制台。<br> 
+`write(data:string = ''):boolean`
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand()
+iostand.write('hello world\n')
+```
+
+此时你会发现控制台输出了`hello world`,和`console.log`效果类似，不同的是他不会自动在语句后换行。
+
+<br>
+
+#### ** 4.2 writeChain **
+
+<br>
+
+IOStand的writeChain函数是链式输出一条消息到控制台。里面会返回一条操作链。<br> 
+`writeChain(_msg:string = ''):StandOutOperate`<br>
+其中StandOutOperate定义如下:
+```ts
+interface StandOutOperate {
+  /**
+   * @description: 附加消息
+   * @param {string} msg 要附加的消息
+   * @return {StandOutOperate}
+   */
+  msg?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 设置字体样式
+   * @param {Color | ''} fontColor 字体颜色
+   * @param {Color | ''} background 背景色
+   * @return {StandOutOperate}
+   */
+  setFont?: (fontColor?: Color | '', background?: Color | '', msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 清除所有控制属性
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  clearProps?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 高亮文本
+   * @param {string} msg 消息
+   * @return {StandOutOperate}
+   */
+  highlight?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 下划线
+   * @param {string} msg 消息
+   * @return {StandOutOperate}
+   */
+  underline?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 闪烁
+   * @param {string} msg 消息
+   * @return {StandOutOperate}
+   */
+  blink?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 反显
+   * @param {string} msg 消息
+   * @return {StandOutOperate}
+   */
+  rdisplay?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 消隐
+   * @param {string} msg 消息
+   * @return {StandOutOperate}
+   */
+  cancelHide?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 控制光标移动
+   * @param {Direct} direct 移动方向
+   * @param {number} lines 移动行数
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  arrowMove?: (direct?:Direct, lines?:number, msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 设置鼠标位置
+   * @param {number | ''} x 横坐标移动距离
+   * @param {number | ''} y 纵坐标移动距离
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  setArrow?: (x?:number | '', y?:number | '', msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 清屏
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  clear?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 保存光标位置
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  saveArrow?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 读取恢复光标位置
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  readArrow?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 隐藏光标
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  hideArrow?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 显示光标
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  showArrow?: (msg?:string) => StandOutOperate,
+
+  /**
+   * @description: 清除光标所在位置之后这一行的所有内容
+   * @param {string} msg 附加消息
+   * @return {StandOutOperate}
+   */
+  clearAfter?: (msg?:string) => StandOutOperate,
+}
+```
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand()
+iostand.writeChain('我是普通字体')
+  .setFont('red', '', '我是红色字体')
+  .setFont('yellow', '', '我是黄色字体\n')
+```
+
+输出:<br>
+![图八](./img/writeChain输出.jpg)
+
+<br>
+
+#### ** 4.3 start **
+
+<br>
+
+start函数是开启命令交互模式，你可以使用`oninput`事件来监听输入，注意，当你注册了`oninput`事件，那么start就不会启用CommandX命令交互模式。<br>
+
+如下示例，我们注册了oninput事件来监听输入。<br>
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand()
+iostand.oninput = (data) => {
+  console.log('你输入了:', data)
+}
+iostand.start()
+```
+
+如果我们直接使用start，相当于是一个CommandX交互模式，你需要通过`addCommand`函数来注册命令。如下示例所示。<br>
+
+示例:
+```javascript
+const iostand = new bst.IOStand()
+
+iostand.addCommand('hello')
+  .action(()=>{
+    console.log('hello world')
+  })
+iostand.start()
+```
+
+输出:<br>
+![图九](./img/commandX.jpg)<br>
+![图十](./img/commandX1.jpg)<br>
+![图十一](./img/commandX2.jpg)<br>
+
+#### ** 4.4 addCommand **
+
+<br>
+
+addCommand是添加一条CommandX命令，这样在开启start交互后，就会根据CommandX寻找已经注册过的action去执行。<br>
+`addCommand(cmd:string, notes:string = ''):AddCommandOperate`
+
+其中AddCommandOperate如下:
+```ts
+interface AddCommandOperate {
+  /**
+   * @description: 声明一个参数
+   * @param {string} argName 参数名称
+   * @param {string} notes 参数注释
+   * @return {AddCommandOperate} 返回操作链
+   */
+  arg: (argName:string, notes:string) => AddCommandOperate;
+
+  /**
+   * @description: 声明一个默认参数
+   * @param {string} notes 参数注释
+   * @return {AddCommandOperate} 返回操作链
+   */
+  defaultArg: (notes:string) => AddCommandOperate;
+
+  /**
+   * @description: 注册操作函数
+   * @param {(command:ParseStruct)=>Promise<number>} fn 操作函数
+   * @return {AddCommandOperate} 返回操作链
+   */
+  action: (fn:(command:ParseStruct)=>Promise<number>)=>AddCommandOperate;
+}
+```
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand()
+iostand.addCommand('say', '输出一句话到控制台')
+  .defaultArg('要说的话')
+  .arg('prefix', '前缀')
+  .arg('suffyx', '后缀')
+  .action((cmd)=>{
+    const prefix = cmd.args.prefix || '';
+    const suffix = cmd.args.suffix || '';
+    const content = cmd.defaultArgs || '';
+    console.log(prefix,content,suffix)
+  })
+iostand.start()
+```
+
+输出:<br>
+![图十二](./img/commandX3.jpg)<br>
+
+值得注意的是，IOStand里面其实默认注册了一个help命令，通过它可以在控制台查询已经注册过的命令使用方式。<br>
+其次，action注册的函数如果返回的是Promise，相当于你是一个异步函数，它会等你执行完成再监听输入。<br>
+如果已经存在某个命令，则不能再注册该命令。<br>
+
+#### ** 4.5 listAllCommand **
+
+<br>
+
+listAllCommand函数是列出已经注册过的CommandX命令。<br>
+`listAllCommand():void`
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand()
+iostand.addCommand('say', '输出一句话到控制台')
+  .defaultArg('要说的话')
+  .arg('prefix', '前缀')
+  .arg('suffyx', '后缀')
+  .action((cmd)=>{
+    const prefix = cmd.args.prefix || '';
+    const suffix = cmd.args.suffix || '';
+    const content = cmd.defaultArgs || '';
+    console.log(prefix,content,suffix)
+  })
+iostand.listAllCommand()
+```
+
+输出:
+```
+help    
+    -[默认参数] 要查看帮助的命令（可以不填写）
+
+say    输出一句话到控制台
+    -[默认参数] 要说的话
+    -prefix 前缀
+    -suffyx 后缀
+```
+
+<br>
+
+#### ** 4.6 awaitInput **
+
+<br>
+
+awaitInput是等待一次输入，等待的这次输入不会受到CommandX交互的影响。<br>
+`awaitInput():Promise<any>`
+
+示例:
+```javascript
+const bst = require('best-shell-tool')
+
+const iostand = new bst.IOStand();
+(async () => {
+  const inp = await iostand.awaitInput()
+  console.log('你输入了:', inp)
+})();
+```
+
+<br>
+
+#### ** 4.7 pause **
+
+<br>
+
+pause同process.stdin.pause，暂停控制台。<br>
+`pause():NodeJS.ReadStream & {fd:0;}`
+
+<br>
+
+#### ** 4.8 resume **
+
+<br>
+
+resume同process.stdin.resume，恢复控制台输入。<br>
+`resume():NodeJS.ReadStream & {fd: 0;}`
+
+<br>
+
+#### ** 4.9 exit **
+
+<br>
+
+exit同process.exit，退出控制台。<br>
+`exit():never`
+
+<br>
+
+#### ** 4.10 release **
+
+<br>
+
+release是释放IOStand对象，当不再用到IOStand时候，请一定要使用该函数释放<br>
+`release():void`
+
+<br>
+
+---

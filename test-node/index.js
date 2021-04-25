@@ -219,4 +219,12 @@ const bst = require("../dist");
 // process.on('message', (...a)=>{
 //   console.log('inp:',a)
 // })
-console.log(process.argv)
+// console.log(process.argv)
+
+const iostand = new bst.IOStand();
+
+(async () => {
+  const inp = await iostand.awaitInput()
+  console.log('你输入了:', inp)
+})();
+// iostand.start()

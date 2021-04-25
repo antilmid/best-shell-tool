@@ -2,8 +2,24 @@
 import { Direct, Color } from './ShellControlString';
 import { ParseStruct } from './CommandParse';
 export interface AddCommandOperate {
-    arg: (notes: string) => AddCommandOperate;
+    /**
+     * @description: 声明一个参数
+     * @param {string} argName 参数名称
+     * @param {string} notes 参数注释
+     * @return {AddCommandOperate} 返回操作链
+     */
+    arg: (argName: string, notes: string) => AddCommandOperate;
+    /**
+     * @description: 声明一个默认参数
+     * @param {string} notes 参数注释
+     * @return {AddCommandOperate} 返回操作链
+     */
     defaultArg: (notes: string) => AddCommandOperate;
+    /**
+     * @description: 注册操作函数
+     * @param {(command:ParseStruct)=>Promise<number>} fn 操作函数
+     * @return {AddCommandOperate} 返回操作链
+     */
     action: (fn: (command: ParseStruct) => Promise<number>) => AddCommandOperate;
 }
 export interface Commander {
@@ -122,6 +138,7 @@ export default class IOStand {
     private __setter__;
     private __commandChain__;
     private __localLock__;
+    private __procEventOn__;
     oninput: (data: any) => {} | null;
     dataFormat: (data: Buffer) => any | null;
     /**
@@ -201,4 +218,9 @@ export default class IOStand {
      * @return {void}
      */
     start(): void;
+    /**
+     * @description: 释放该对象（当该对象不再使用时，一定要释放）
+     * @return {void}
+     */
+    release(): void;
 }

@@ -22,8 +22,26 @@ import {
 import { ParseStruct, parser } from './CommandParse';
 
 export interface AddCommandOperate {
-  arg: (notes:string) => AddCommandOperate;
+  /**
+   * @description: 声明一个参数
+   * @param {string} argName 参数名称
+   * @param {string} notes 参数注释
+   * @return {AddCommandOperate} 返回操作链
+   */
+  arg: (argName:string, notes:string) => AddCommandOperate;
+
+  /**
+   * @description: 声明一个默认参数
+   * @param {string} notes 参数注释
+   * @return {AddCommandOperate} 返回操作链
+   */
   defaultArg: (notes:string) => AddCommandOperate;
+
+  /**
+   * @description: 注册操作函数
+   * @param {(command:ParseStruct)=>Promise<number>} fn 操作函数
+   * @return {AddCommandOperate} 返回操作链
+   */
   action: (fn:(command:ParseStruct)=>Promise<number>)=>AddCommandOperate;
 }
 
@@ -171,6 +189,8 @@ export default class IOStand {
 
   private __localLock__ : boolean;
 
+  private __procEventOn__: (dt:any) => any;
+
   oninput: (data:any)=>{} | null;
 
   dataFormat: (data:Buffer) => any | null;
@@ -185,6 +205,25 @@ export default class IOStand {
     this.__setter__ = null;
     this.__commandChain__ = [];
     this.__localLock__ = false;
+    this.__procEventOn__ = (dt) => {
+      const formated = this.dataFormat ? this.dataFormat(dt) : dt;
+      // eslint-disable-next-line no-underscore-dangle
+      if (!this.__localLock__ && !this.oninput) {
+        const cmd = parser(dt.toString());
+        const commander = this.findCommander(cmd.command);
+        if (commander && !cmd.args.help) {
+          this.doSomething(async () => { await commander.action(cmd); });
+        } else if (commander && cmd.args.help) {
+          this.listCommand(commander);
+        } else if (cmd.command) {
+          this.writeChain('')
+            .setFont('red', '', `不存在 ${cmd.command} 命令\n`)
+            .clearProps();
+        }
+      }
+      if (this.__setter__) this.__setter__(formated);
+      if (this.oninput) this.oninput(formated);
+    };
     this.oninput = null;
     this.dataFormat = (data:Buffer) => data.toString();
     // 初始化help命令
@@ -207,25 +246,7 @@ export default class IOStand {
       });
     // 注册data事件
     this.resume();
-    this.process.stdin.on('data', (dt) => {
-      const formated = this.dataFormat ? this.dataFormat(dt) : dt;
-      // eslint-disable-next-line no-underscore-dangle
-      if (!this.__localLock__ && !this.oninput) {
-        const cmd = parser(dt.toString());
-        const commander = this.findCommander(cmd.command);
-        if (commander && !cmd.args.help) {
-          this.doSomething(async () => { await commander.action(cmd); });
-        } else if (commander && cmd.args.help) {
-          this.listCommand(commander);
-        } else if (cmd.command) {
-          this.writeChain('')
-            .setFont('red', '', `不存在 ${cmd.command} 命令\n`)
-            .clearProps();
-        }
-      }
-      if (this.__setter__) this.__setter__(formated);
-      if (this.oninput) this.oninput(formated);
-    });
+    this.process.stdin.on('data', this.__procEventOn__);
     this.pause();
   }
 
@@ -414,5 +435,13 @@ export default class IOStand {
   start():void {
     this.__localLock__ = false;
     this.resume();
+  }
+
+  /**
+   * @description: 释放该对象（当该对象不再使用时，一定要释放）
+   * @return {void}
+   */
+  release():void {
+    this.process.stdin.removeListener('data', this.__procEventOn__);
   }
 }
