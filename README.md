@@ -38,7 +38,7 @@
       - [**4.8 resume**](#48-resume)
       - [**4.9 exit**](#49-exit)
       - [**4.10 release**](#410-release)
-      - [5. Tool工具](#5-tool%E5%B7%A5%E5%85%B7)
+    - [5. Tool工具](#5-tool%E5%B7%A5%E5%85%B7)
       - [**5.1 process进度条**](#51-process%E8%BF%9B%E5%BA%A6%E6%9D%A1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -1074,7 +1074,7 @@ release是释放IOStand对象，当不再用到IOStand时候，请一定要使�
 
 <br>
 
-#### 5. Tool工具
+### 5. Tool工具
 
 <br>
 
