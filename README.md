@@ -673,7 +673,7 @@ formatFree函数是一个用来将自由非限定字符串转化为js字符串�
 
 BST提供了一个标准输入输出管理，用它可以轻松管理shell控制台的输入输出。
 
-#### ** 4.1 write **
+#### **4.1 write**
 
 <br>
 
@@ -692,7 +692,7 @@ iostand.write('hello world\n')
 
 <br>
 
-#### ** 4.2 writeChain **
+#### **4.2 writeChain**
 
 <br>
 
@@ -835,7 +835,7 @@ iostand.writeChain('我是普通字体')
 
 <br>
 
-#### ** 4.3 start **
+#### **4.3 start**
 
 <br>
 
@@ -872,7 +872,7 @@ iostand.start()
 ![图十](./img/commandX1.jpg)<br>
 ![图十一](./img/commandX2.jpg)<br>
 
-#### ** 4.4 addCommand **
+#### **4.4 addCommand**
 
 <br>
 
@@ -931,7 +931,7 @@ iostand.start()
 其次，action注册的函数如果返回的是Promise，相当于你是一个异步函数，它会等你执行完成再监听输入。<br>
 如果已经存在某个命令，则不能再注册该命令。<br>
 
-#### ** 4.5 listAllCommand **
+#### **4.5 listAllCommand**
 
 <br>
 
@@ -969,7 +969,7 @@ say    输出一句话到控制台
 
 <br>
 
-#### ** 4.6 awaitInput **
+#### **4.6 awaitInput**
 
 <br>
 
@@ -989,7 +989,7 @@ const iostand = new bst.IOStand();
 
 <br>
 
-#### ** 4.7 pause **
+#### **4.7 pause**
 
 <br>
 
@@ -998,7 +998,7 @@ pause同process.stdin.pause，暂停控制台。<br>
 
 <br>
 
-#### ** 4.8 resume **
+#### **4.8 resume**
 
 <br>
 
@@ -1007,7 +1007,7 @@ resume同process.stdin.resume，恢复控制台输入。<br>
 
 <br>
 
-#### ** 4.9 exit **
+#### **4.9 exit**
 
 <br>
 
@@ -1016,7 +1016,7 @@ exit同process.exit，退出控制台。<br>
 
 <br>
 
-#### ** 4.10 release **
+#### **4.10 release**
 
 <br>
 
