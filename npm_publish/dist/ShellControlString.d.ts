@@ -206,5 +206,10 @@ export declare function showArrow(msg?: string): string;
  * @return {string} 格式化后的消息
  */
 export declare function clearPositionAfter(msg?: string): string;
+/**
+ * @description: 链式获取格式化字符
+ * @param {string} _msg 附加消息
+ * @return {StandOutOperate} 操作链
+ */
 export declare function getFmtString(_msg?: string): StandOutOperate;
 export {};
