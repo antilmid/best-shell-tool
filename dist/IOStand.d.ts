@@ -138,6 +138,7 @@ export default class IOStand {
     private __setter__;
     private __commandChain__;
     private __localLock__;
+    private __isRaw__;
     private __procEventOn__;
     oninput: (data: any) => {} | null;
     dataFormat: (data: Buffer) => any | null;
@@ -223,4 +224,6 @@ export default class IOStand {
      * @return {void}
      */
     release(): void;
+    useRaw(): void;
+    closeRaw(): void;
 }

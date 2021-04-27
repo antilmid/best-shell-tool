@@ -230,27 +230,194 @@ const bst = require("../dist");
 // iostand.start()
 
 
-const process = bst.tool.process;
-const iostand = new bst.IOStand();
+// const process = bst.tool.process;
+// const iostand = new bst.IOStand();
 
 
-iostand.addCommand('wait', '等待')
-  .defaultArg('要等待的时间')
-  .action((cmd)=>{
-    console.log('')
-    return new Promise((res) => {
-      const waitTime = parseInt(cmd.defaultArgs, 10) || 0
-      let current = 0
-      const timer = setInterval(()=>{
-        console.log(process(current, waitTime))
-        if(current === waitTime) {
-          clearInterval(timer)
-          console.log('已经结束等待')
-          res()
-        }
-        current += 1
-      }, 1000)
-    })
-  })
+// iostand.addCommand('wait', '等待')
+//   .defaultArg('要等待的时间')
+//   .action((cmd)=>{
+//     console.log('')
+//     return new Promise((res) => {
+//       const waitTime = parseInt(cmd.defaultArgs, 10) || 0
+//       let current = 0
+//       const timer = setInterval(()=>{
+//         console.log(process(current, waitTime))
+//         if(current === waitTime) {
+//           clearInterval(timer)
+//           console.log('已经结束等待')
+//           res()
+//         }
+//         current += 1
+//       }, 1000)
+//     })
+//   })
 
-iostand.start()
+// iostand.start()
+
+// const MAP = [
+//   [' ', ' ', ' ', ' ', ' '],
+//   [' ', 'X', ' ', 'X', ' '],
+//   [' ', ' ', ' ', 'X', ' '],
+//   [' ', 'X', ' ', ' ', 'X'],
+//   ['X', ' ', ' ', ' ', ' '],
+// ]
+
+// const PLAYER = {
+//   x: 0,
+//   y: 0,
+// };
+
+// const iostand = new bst.IOStand();
+
+
+// function render () {}
+
+// const PLAYER = {
+//   x: 0,
+//   y: 0,
+//   init () {
+//     MAP[y][x] = 'O';
+//     render();
+//   },
+//   up
+// }
+
+// let fs = require('fs')
+
+// function getChar() {
+//   let buffer = Buffer.alloc(1)
+//   fs.read(0, buffer, 0, 1, null, (...a)=>{
+//     console.log(a)
+//   })
+//   return buffer.toString('utf8')
+// }
+
+// console.log(getChar())
+
+// keypress(process.stdin);
+// process.stdin.on('data', function (ch, key) {
+//   if(ch[0] === 3) process.stdin.setRawMode(false);
+//   console.log('got "keypress"', ch[0], ch, ch.toString());
+//   // if (key && key.ctrl && key.name == 'c') {
+//   //   process.stdin.pause();
+//   // }
+// });
+
+// process.stdin.setRawMode(true);
+
+// setTimeout(()=>{process.stdin.setRawMode(false);}, 10000)
+
+// process.stdin.resume();
+
+// const BAND_ROAD = 'XW';
+
+
+// const MAP = [
+//   [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//   ['X', 'X', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+//   [' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+//   [' ', 'X', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' '],
+//   ['X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//   [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//   ['X', 'X', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+//   [' ', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+//   [' ', 'X', ' ', ' ', 'X', ' ', ' ', ' ', ' ', ' '],
+//   ['X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+// ]
+
+// const MAP = createMap(10, 10, 1, 6, 1, 10)
+
+// const CHARACTER = {
+//   x: 0,
+//   y: 0,
+//   inMap: MAP,
+//   onUp () {
+//     if(this.y > 0 && !BAND_ROAD.includes(this.inMap[this.y - 1][this.x]) ) this.y -= 1;
+//   },
+//   onDown () {
+//     if(this.y < this.inMap.length - 1 && !BAND_ROAD.includes(this.inMap[this.y + 1][this.x]) ) this.y += 1;
+//   },
+//   onLeft () {
+//     if(this.x > 0 && !BAND_ROAD.includes(this.inMap[this.y][this.x - 1]) ) this.x -= 1;
+//   },
+//   onRight () {
+//     if(this.x < this.inMap[this.y].length - 1 && !BAND_ROAD.includes(this.inMap[this.y][this.x + 1]) ) this.x += 1;
+//   }
+// }
+// const ios = new bst.IOStand;
+// ios.useRaw();
+// ios.start();
+
+// ios.oninput = (key) => {
+//   if(key === 'w') CHARACTER.onUp();
+//   if(key === 's') CHARACTER.onDown();
+//   if(key === 'a') CHARACTER.onLeft();
+//   if(key === 'd') CHARACTER.onRight();
+// }
+
+// function render () {
+//   const em = {
+//     ' ': 'yellow',
+//     'X': 'white',
+//     'G': 'green',
+//     'W': 'blue'
+//   }
+//   ios.writeChain().clear().setArrow(0,20,'')
+//   for(let y = 0; y < MAP.length; y+=1){
+//     for(let x = 0; x < MAP[y].length; x+=1){
+//       const char = MAP[y][x];
+//       const isCharacter = y === CHARACTER.y && x === CHARACTER.x;
+//       ios.writeChain()
+//         .setFont('', em[char] || '', isCharacter ? ' o ' : '   ')
+//         .clearProps();
+//     }
+//     ios.write('\n');
+//   }
+// }
+
+// function createMap (xw, yw, X = 1, G = 1, W = 1, N = 1) {
+//   const mp = [];
+//   for(let y = 0; y < yw; y+=1){
+//     const xarr = [];
+//     mp.push(xarr);
+//     for(let x = 0; x < xw; x+= 1){
+//       const allValue = X + G + W + N;
+//       const randNum = Math.random()*100;
+//       const xRate = {
+//         min: 0,
+//         max: (X/allValue)*100
+//       }
+//       const gRate = {
+//         min: xRate.max,
+//         max: xRate.max + (G/allValue)*100
+//       }
+//       const wRate = {
+//         min: gRate.max,
+//         max: gRate.max + (W/allValue)*100
+//       }
+//       const nRate = {
+//         min: wRate.max,
+//         max: wRate.max + (N/allValue)*100
+//       }
+//       if(randNum > xRate.min && randNum <= xRate.max) xarr.push('X');
+//       if(randNum > gRate.min && randNum <= gRate.max) xarr.push('G');
+//       if(randNum > nRate.min && randNum <= nRate.max) xarr.push(' ');
+//       if(randNum > wRate.min && randNum <= wRate.max) xarr.push('W');
+//     }
+//   }
+//   return mp;
+// }
+
+// function createModal (xw=10, yw=10, msg = '') {
+//   const modal = [];
+//   for(){}
+// }
+// setInterval(render, 100)
+// console.log(MAP)
+
+// process.stdout.on('resize')
+const fs = require('fs');
+setInterval(()=>{
+  fs.writeSync(0, bst.getFmtString().clear('hello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\n').end());
+}, 1)

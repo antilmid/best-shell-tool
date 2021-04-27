@@ -189,6 +189,8 @@ export default class IOStand {
 
   private __localLock__ : boolean;
 
+  private __isRaw__ : boolean;
+
   private __procEventOn__: (dt:any) => any;
 
   oninput: (data:any)=>{} | null;
@@ -205,6 +207,7 @@ export default class IOStand {
     this.__setter__ = null;
     this.__commandChain__ = [];
     this.__localLock__ = false;
+    this.__isRaw__ = false;
     this.__procEventOn__ = (dt) => {
       const formated = this.dataFormat ? this.dataFormat(dt) : dt;
       // eslint-disable-next-line no-underscore-dangle
@@ -220,6 +223,9 @@ export default class IOStand {
             .setFont('red', '', `不存在 ${cmd.command} 命令\n`)
             .clearProps();
         }
+      }
+      if (this.__isRaw__ === true && dt[0] === 3) {
+        this.exit();
       }
       if (this.__setter__) this.__setter__(formated);
       if (this.oninput) this.oninput(formated);
@@ -256,9 +262,10 @@ export default class IOStand {
    * @return {Promise<void>}
    */
   async doSomething(fn:()=>Promise<any>):Promise<void> {
-    this.__localLock__ = true;
+    this.useRaw();
     await fn();
-    this.__localLock__ = false;
+    this.process.stdin.setRawMode(false);
+    this.closeRaw();
   }
 
   /**
@@ -433,7 +440,7 @@ export default class IOStand {
    * @return {void}
    */
   start():void {
-    this.__localLock__ = false;
+    this.__localLock__ = !!this.__isRaw__;
     this.resume();
   }
 
@@ -443,5 +450,17 @@ export default class IOStand {
    */
   release():void {
     this.process.stdin.removeListener('data', this.__procEventOn__);
+  }
+
+  useRaw() {
+    this.__localLock__ = true;
+    this.__isRaw__ = true;
+    this.process.stdin.setRawMode(true);
+  }
+
+  closeRaw() {
+    this.__localLock__ = false;
+    this.__isRaw__ = false;
+    this.process.stdin.setRawMode(false);
   }
 }
