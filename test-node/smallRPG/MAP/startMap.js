@@ -50,11 +50,14 @@ const events = [
     char: '(M)',
     charColor: 'black',
     async action (gb) {
-      await gb.MESSAGE.showMsg('你好，我是这里的向导，欢迎来到shell世界。<space>');
-      await gb.INPUT.isPress(' ');
-      await gb.MESSAGE.showMsg('这是一个简单的世界<space>');
-      await gb.INPUT.isPress(' ');
-      await gb.MESSAGE.showMsg('');
+      // await gb.MESSAGE.showMsg('你好，我是这里的向导，欢迎来到shell世界。<space>');
+      // await gb.INPUT.isPress(' ');
+      // await gb.MESSAGE.showMsg('这是一个简单的世界<space>');
+      // await gb.INPUT.isPress(' ');
+      // await gb.MESSAGE.showMsg('');
+    },
+    update () {
+      const rand = Math
     }
   }
 ]

@@ -417,7 +417,45 @@ const bst = require("../dist");
 // console.log(MAP)
 
 // process.stdout.on('resize')
-const fs = require('fs');
-setInterval(()=>{
-  fs.writeSync(0, bst.getFmtString().clear('hello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\n').end());
-}, 1)
+// const fs = require('fs');
+// setInterval(()=>{
+//   fs.writeSync(0, bst.getFmtString().clear('hello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\nhello world\n').end());
+// }, 1)
+
+
+// 输入: [1,2,3]
+// 输出:
+// [
+//   [1,2,3],
+//   [1,3,2],
+//   [2,1,3],
+//   [2,3,1],
+//   [3,1,2],
+//   [3,2,1]
+// ]
+
+
+
+
+
+
+
+
+
+
+function resolve (nums = []) {
+  let path = [], res = [];
+  function permutation (nums = []) {
+    for(let i = 0; i < nums.length; i+=1){
+      if(!path.includes(nums[i])) {
+        path.push(nums[i]);
+        permutation(nums);
+      } else {
+        res.push(path);
+        path = [];
+      }
+    }
+  }
+  permutation(nums);
+  return res;
+}
