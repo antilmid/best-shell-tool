@@ -142,6 +142,7 @@ export default class IOStand {
     private __procEventOn__;
     oninput: (data: any) => {} | null;
     dataFormat: (data: Buffer) => any | null;
+    __DEV__: boolean;
     /**
      * @description: 创建一个新的输入输出操作器
      * @param { NodeJS.Process} process process构造器

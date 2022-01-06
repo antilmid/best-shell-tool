@@ -197,6 +197,8 @@ export default class IOStand {
 
   dataFormat: (data:Buffer) => any | null;
 
+  __DEV__: boolean;
+
   /**
    * @description: 创建一个新的输入输出操作器
    * @param { NodeJS.Process} process process构造器
@@ -208,10 +210,15 @@ export default class IOStand {
     this.__commandChain__ = [];
     this.__localLock__ = false;
     this.__isRaw__ = false;
+    this.__DEV__ = true;
     this.__procEventOn__ = (dt) => {
       const formated = this.dataFormat ? this.dataFormat(dt) : dt;
+      // console.log(this.__localLock__, this.oninput);
       // eslint-disable-next-line no-underscore-dangle
       if (!this.__localLock__ && !this.oninput) {
+        if (this.__DEV__) {
+          // console.log('内部命令模式执行');
+        }
         const cmd = parser(dt.toString());
         const commander = this.findCommander(cmd.command);
         if (commander && !cmd.args.help) {
@@ -253,6 +260,7 @@ export default class IOStand {
     // 注册data事件
     this.resume();
     this.process.stdin.on('data', this.__procEventOn__);
+    // this.process.stdin.removeListener('data', this.__procEventOn__);
     this.pause();
   }
 
@@ -315,10 +323,11 @@ export default class IOStand {
    * @return {Promise<any>} 输入结果
    */
   awaitInput():Promise<any> {
-    this.resume();
-    this.__localLock__ = true;
     return new Promise((res, rej) => {
       try {
+        this.resume();
+        this.__localLock__ = true;
+        // console.log('__localLock__转变', this.__localLock__);
         // eslint-disable-next-line no-underscore-dangle
         this.__setter__ = (data) => {
           res(data);
